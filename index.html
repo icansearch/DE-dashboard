@@ -996,16 +996,16 @@
        if (!data || typeof data !== 'object' || !data.schedule) { // Also check for schedule existence
           data = {
              schedule: [ // Use user's schedule template
-                { id: 1, timeSlot: '8:30 AM - 9:00 AM', duration: '30 mins', title: 'Plan & Review', description: 'Set daily goals (small, specific), review yesterday, quick concept recap.', category: 'planning' },
-                { id: 2, timeSlot: '9:00 AM - 10:30 AM', duration: '1.5 hours', title: 'Project Building', description: 'Work on independent pipeline project. Code first, reference/AI second. Commit progress.', category: 'project' },
-                { id: 3, timeSlot: '10:30 AM - 10:45 AM', duration: '15 mins', title: 'Break', description: 'Step away from the screen.', category: 'break' },
-                { id: 4, timeSlot: '10:45 AM - 12:00 PM', duration: '1.25 hours', title: 'Targeted Practice', description: 'SQL (Mon/Wed/Fri) or Python (Tue/Thu) practice (LeetCode, HackerRank, etc.). Active recall.', category: 'practice' }, // Category could be dynamic later if needed
-                { id: 5, timeSlot: '12:00 PM - 1:00 PM', duration: '1 hour', title: 'Lunch & Unwind', description: 'Complete break from work.', category: 'break' },
-                { id: 6, timeSlot: '1:00 PM - 2:30 PM', duration: '1.5 hours', title: 'Cloud Learning/Cert Study', description: 'Work through AWS/Azure/GCP modules. Focus on DE services. Hands-on labs.', category: 'cloud' },
-                { id: 7, timeSlot: '2:30 PM - 2:45 PM', duration: '15 mins', title: 'Break', description: 'Short break.', category: 'break' },
-                { id: 8, timeSlot: '2:45 PM - 4:00 PM', duration: '1.25 hours', title: 'Job Application & Network', description: 'Find 2-3 roles, tailor resume/cover letter, apply. Optional: LinkedIn engagement.', category: 'jobsearch' },
-                { id: 9, timeSlot: '4:00 PM - 4:45 PM', duration: '45 mins', title: 'Flexible / Interview Prep', description: 'Continue applying, refine portfolio, practice behavioral questions (STAR), review concepts.', category: 'interviewprep' },
-                { id: 10, timeSlot: '4:45 PM - 5:00 PM', duration: '15 mins', title: 'Wrap-up & Plan', description: 'Log today\'s accomplishments, list priorities for tomorrow. Shutdown work mode.', category: 'review' }
+             { id: 1, timeSlot: '8:30 AM - 9:00 AM', duration: '30 mins', title: 'Plan & Review', description: 'Set daily goals, review yesterday, quick concept recap.', category: 'planning' },
+                    { id: 2, timeSlot: '9:00 AM - 10:30 AM', duration: '1.5 hours', title: 'Project Building', description: 'Work on independent pipeline project. Commit progress.', category: 'project' },
+                    { id: 3, timeSlot: '10:30 AM - 10:45 AM', duration: '15 mins', title: 'Break', description: 'Step away from the screen.', category: 'break' },
+                    { id: 4, timeSlot: '10:45 AM - 12:00 PM', duration: '1.25 hours', title: 'Targeted Practice', description: 'SQL or Python practice (LeetCode, HackerRank, etc.)', category: 'practice' },
+                    { id: 5, timeSlot: '12:00 PM - 1:00 PM', duration: '1 hour', title: 'Lunch & Unwind', description: 'Complete break from work.', category: 'break' },
+                    { id: 6, timeSlot: '1:00 PM - 2:30 PM', duration: '1.5 hours', title: 'Cloud Learning/Cert Study', description: 'Work through AWS/Azure/GCP modules. Focus on DE services', category: 'cloud' },
+                    { id: 7, timeSlot: '2:30 PM - 2:45 PM', duration: '15 mins', title: 'Break', description: 'Short break.', category: 'break' },
+                    { id: 8, timeSlot: '2:45 PM - 4:00 PM', duration: '1.25 hours', title: 'Job Application & Network', description: 'Find 2-3 roles, tailor resume, LinkedIn engagement.', category: 'jobsearch' },
+                    { id: 9, timeSlot: '4:00 PM - 4:45 PM', duration: '45 mins', title: 'Flexible / Interview Prep', description: 'Refine portfolio, practice behavioral questions review concepts.', category: 'interviewprep' },
+                    { id: 10, timeSlot: '4:45 PM - 5:00 PM', duration: '15 mins', title: 'Wrap-up & Plan', description: 'Log today\'s accomplishments, list priorities for tomorrow. Shutdown work mode.', category: 'review' }
              ],
              dailyData: {}, notes: [],
              skills: { aws: { current: 1, history: [] }, sql: { current: 1, history: [] }, python: { current: 1, history: [] }, dataEngineering: { current: 1, history: [] }, communication: { current: 1, history: [] }, problemSolving: { current: 1, history: [] } },
