@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Engineering Journey Dashboard - Modern</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap'); /* Headings */
+    @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" ); /* Google Icons */
+
+    :root {
+      /* Core Colors */
+      --primary: #4A90E2; /* Softer Blue */
+      --primary-light: #8AC6FF;
+      --primary-dark: #3A7BC8;
+      --secondary: #F5A623; /* Orange/Amber */
+      --accent: #50E3C2; /* Teal/Mint */
+      --danger: #E94F37; /* Softer Red */
+      --warning: #F8C549; /* Yellow */
+      --success: #7ED321; /* Brighter Green */
+
+      /* Neutral Grays */
+      --neutral-0: #ffffff;
+      --neutral-50: #F9FAFB;  /* Very Light Gray - Main BG */
+      --neutral-100: #F3F4F6; /* Card BG / Light Borders */
+      --neutral-200: #E5E7EB; /* Borders / Dividers */
+      --neutral-300: #D1D5DB; /* Medium Borders / Disabled BG */
+      --neutral-400: #9CA3AF; /* Placeholder Text / Icons */
+      --neutral-500: #6B7280; /* Secondary Text */
+      --neutral-600: #4B5563; /* Body Text */
+      --neutral-700: #374151; /* Medium Titles */
+      --neutral-800: #1F2937; /* Main Titles */
+      --neutral-900: #111827; /* Darkest Text */
+
+      /* Dark Mode Colors */
+      --dark-bg-primary: #111827; /* Near Black */
+      --dark-bg-secondary: #1F2937; /* Card Background */
+      --dark-border-light: #374151;
+      --dark-border-medium: #4B5563;
+      --dark-text-primary: #E5E7EB; /* Main Text */
+      --dark-text-secondary: #9CA3AF; /* Secondary Text */
+      --dark-text-disabled: #6B7280;
+      --dark-shadow-color: rgba(0, 0, 0, 0.2);
+
+      /* Sizing & Spacing */
+      --space-xs: 0.375rem; /* 6px */
+      --space-sm: 0.75rem;  /* 12px */
+      --space-md: 1.25rem;  /* 20px */
+      --space-lg: 1.75rem;  /* 28px */
+      --space-xl: 2.5rem;   /* 40px */
+
+      /* Borders & Shadows */
+      --border-radius-sm: 6px;
+      --border-radius-md: 10px;
+      --border-radius-lg: 16px; /* Increased radius */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+      --dark-shadow-sm: 0 1px 2px 0 var(--dark-shadow-color);
+      --dark-shadow-md: 0 4px 6px -1px var(--dark-shadow-color), 0 2px 4px -2px var(--dark-shadow-color);
+      --dark-shadow-lg: 0 10px 15px -3px var(--dark-shadow-color), 0 4px 6px -4px var(--dark-shadow-color);
+
+      /* Transitions */
+      --transition-fast: all 0.15s ease-in-out;
+      --transition-std: all 0.25s ease-in-out; /* Slightly slower for smoother feel */
+
+      /* Timer Specific */
+      --timer-size: 44px; /* Slightly smaller */
+      --timer-border-width: 4px; /* Slightly thicker */
+      --timer-bg: var(--neutral-200);
+      --timer-progress-bg: var(--primary);
+      --timer-progress-warn-bg: var(--secondary);
+      --timer-progress-end-bg: var(--danger);
+      --timer-track-bg: var(--neutral-100);
+      --timer-text-color: var(--neutral-600);
+      --pomodoro-duration: 1500; /* 25 minutes (NOTE: Your schedule uses longer blocks, timer might need adjusting if used like Pomodoro) */
+      --timer-warn-threshold: 0.8;
+      --timer-end-threshold: 0.95;
+
+      /* Font Setup */
+      --font-body: 'Poppins', sans-serif;
+      --font-heading: 'Montserrat', sans-serif;
+
+      /* Use primary RGB for effects */
+      --primary-rgb: 74, 144, 226;
+      /* Add other RGBs needed */
+       --dark-bg-secondary-rgb: 31, 41, 55;
+       --success-rgb: 126, 211, 33;
+       --danger-rgb: 233, 79, 55;
+    }
+
+    /* Basic Reset & Body */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--neutral-50); /* Lighter overall background */
+      color: var(--neutral-600);
+      line-height: 1.6;
+      font-size: 16px; /* Adjusted base font size */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color var(--transition-std), color var(--transition-std);
+    }
+
+    /* Material Symbols Outlined */
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-size: 1.1em; /* Adjust size relative to surrounding text */
+      vertical-align: text-bottom; /* Align better with text */
+      line-height: 1;
+    }
+
+    /* Dark Mode Styles */
+    .dark-mode {
+      --timer-bg: var(--dark-border-medium);
+      --timer-progress-bg: var(--primary-light); /* Use lighter blue in dark mode */
+      --timer-progress-warn-bg: var(--secondary);
+      --timer-progress-end-bg: var(--danger);
+      --timer-track-bg: var(--dark-border-light);
+      --timer-text-color: var(--dark-text-secondary);
+
+      --primary-rgb: 138, 198, 255; /* Use primary-light RGB */
+
+      background-color: var(--dark-bg-primary);
+      color: var(--dark-text-primary);
+
+      .card, .tab-navigation, .schedule-item, .achievement-card, .note-card,
+      input, textarea, select, .toast {
+        background-color: var(--dark-bg-secondary);
+        border-color: var(--dark-border-light);
+        color: var(--dark-text-primary);
+      }
+
+      input::placeholder, textarea::placeholder { color: var(--dark-text-disabled); }
+      label { color: var(--dark-text-secondary); }
+      .progress-label { color: var(--dark-text-secondary); }
+      .note-date { color: var(--dark-text-disabled); }
+      .schedule-item.completed { background-color: rgba(var(--dark-bg-secondary-rgb), 0.7); } /* Need RGB for opacity */
+      .schedule-item.completed .task-title { color: var(--dark-text-disabled); }
+      .schedule-item.is-break { background-color: rgba(var(--dark-bg-secondary-rgb), 0.5); opacity: 0.8; } /* Dark mode break style */
+      .time-info { color: var(--primary-light); }
+      .task-title { color: var(--dark-text-primary); }
+      .card-title { color: var(--neutral-100); }
+      .card-header { border-bottom-color: var(--dark-border-light); }
+      .note-card-header { border-bottom-color: var(--dark-border-light); }
+      .streak-day { background-color: var(--dark-border-medium); border-color: var(--dark-border-light); }
+      .streak-day.completed { background-color: var(--success); border-color: var(--success); color: var(--neutral-900); }
+      .progress-bar-container { background-color: var(--dark-border-medium); }
+      .progress-bar { background: var(--primary-light); }
+      #overallTasksProgressBar { background: var(--secondary); }
+      #monthProgressBar { background: var(--accent); }
+      .progress-value { color: var(--neutral-100); background: none; -webkit-text-fill-color: initial;} /* Remove gradient in dark */
+      .badge { background-color: var(--primary-light); color: var(--dark-bg-primary); }
+      .achievement-title { color: var(--dark-text-primary); }
+      .achievement-description { color: var(--dark-text-secondary); }
+      .achievement-card { border-left-color: var(--dark-border-medium); }
+      .achievement-card.unlocked { border-left-color: var(--success); background-color: rgba(var(--success-rgb, 126, 211, 33), 0.1); } /* Subtle green bg */
+      .note-content strong { color: var(--dark-text-primary); }
+      .note-content code { background-color: var(--dark-bg-primary); color: var(--accent); }
+      #skillLevelDisplay { color: var(--primary-light); }
+
+      input:disabled, textarea:disabled, select:disabled {
+        background-color: var(--dark-border-light);
+        color: var(--dark-text-disabled);
+        border-color: var(--dark-border-medium);
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+      input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.8); }
+      button:disabled {
+         background: var(--dark-border-medium) !important; /* Ensure override */
+         color: var(--dark-text-disabled) !important;
+         box-shadow: none !important;
+         transform: none !important;
+         cursor: not-allowed;
+         opacity: 0.6;
+      }
+
+      /* Shadows in dark mode */
+      .card, .tab-navigation, .note-card, .achievement-card, .toast { box-shadow: var(--dark-shadow-md); }
+      header { box-shadow: var(--dark-shadow-md); }
+      .tab.active { border-bottom-color: var(--primary-light); color: var(--primary-light); }
+      .tab:hover:not(.active) { background-color: var(--dark-border-light); }
+
+      .toast { background-color: var(--dark-text-primary); color: var(--dark-bg-secondary); border-color: var(--dark-border-medium); }
+      .toast.success { background-color: var(--success); color: var(--dark-bg-primary); border-color: transparent;}
+      .toast.error { background-color: var(--danger); color: var(--neutral-0); border-color: transparent;}
+      .toast.info { background-color: var(--primary-light); color: var(--dark-bg-primary); border-color: transparent;}
+      .toast.warning { background-color: var(--warning); color: var(--neutral-900); border-color: transparent; } /* Added dark mode warning toast */
+    }
+
+    /* Layout Container */
+    .container {
+      max-width: 1400px; /* Slightly wider */
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-xl);
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-md) var(--space-lg); /* Reduced padding */
+      background: linear-gradient(120deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: var(--neutral-0);
+      border-radius: var(--border-radius-md); /* Match card radius */
+      margin-bottom: var(--space-xl);
+      box-shadow: var(--shadow-md);
+    }
+    header h1 {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      display: inline-flex; /* Align icon nicely */
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .header-controls { display: flex; gap: var(--space-sm); align-items: center; }
+
+    /* Tab Navigation */
+    .tab-navigation {
+      display: flex;
+      margin-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--neutral-200);
+      position: sticky; /* Still sticky */
+      top: var(--space-sm);
+      background-color: rgba(249, 250, 251, 0.8); /* Semi-transparent light BG */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 10;
+      border-radius: var(--border-radius-md); /* Rounded corners */
+      padding: 0 var(--space-sm);
+    }
+    .dark-mode .tab-navigation {
+        background-color: rgba(17, 24, 39, 0.8); /* Semi-transparent dark BG */
+        border-bottom-color: var(--dark-border-light);
+    }
+    .tab {
+      flex: 1;
+      min-width: 0; /* Allow flex shrinking */
+      padding: var(--space-md) var(--space-sm); /* Adjusted padding */
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-std);
+      font-weight: 600;
+      color: var(--neutral-500); /* Default inactive tab color */
+      position: relative;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px; /* Overlap border */
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+    }
+    .tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .tab:hover:not(.active) {
+      color: var(--neutral-700);
+      background-color: var(--neutral-100); /* Subtle hover background */
+    }
+     .dark-mode .tab { color: var(--dark-text-secondary); }
+     .dark-mode .tab:hover:not(.active) { color: var(--dark-text-primary); background-color: var(--dark-border-light); }
+
+
+    /* Content Area */
+    .content { display: none; animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    .content.active { display: block; }
+
+    /* Cards */
+    .card {
+      background-color: var(--neutral-0);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      box-shadow: var(--shadow-md);
+      transition: var(--transition-std);
+      border: 1px solid var(--neutral-200);
+    }
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--neutral-200);
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+    .card-title {
+      margin: 0;
+      color: var(--neutral-800);
+      font-size: 1.3rem; /* Slightly larger */
+      font-weight: 700;
+      font-family: var(--font-heading);
+       display: inline-flex;
+       align-items: center;
+       gap: var(--space-sm);
+    }
+
+    /* Buttons */
+    button {
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: var(--space-sm) var(--space-lg); /* Adjusted padding */
+      border-radius: var(--border-radius-md);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs); /* Smaller gap */
+      line-height: 1.4;
+      white-space: nowrap;
+      /* Default/Primary Button */
+      background-color: var(--primary);
+      color: var(--neutral-0);
+      box-shadow: var(--shadow-sm);
+    }
+    button:hover:not(:disabled) {
+      transform: translateY(-1px); /* Subtle lift */
+      box-shadow: var(--shadow-md);
+      filter: brightness(1.05);
+    }
+    button:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: var(--shadow-sm);
+      filter: brightness(0.95);
+    }
+    button:disabled {
+      background-color: var(--neutral-300);
+      color: var(--neutral-500);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+      opacity: 0.7;
+    }
+    button:focus-visible {
+        outline: 2px solid var(--primary-light);
+        outline-offset: 2px;
+    }
+
+    /* Button Variants */
+    button.secondary { background-color: var(--secondary); color: var(--neutral-800); }
+    button.success { background-color: var(--success); color: var(--neutral-900); }
+    button.warning { background-color: var(--warning); color: var(--neutral-800); }
+    button.danger { background-color: var(--danger); }
+    button.neutral { background-color: var(--neutral-500); }
+    button.outline { background-color: transparent; border: 1px solid var(--neutral-300); color: var(--neutral-700); box-shadow: none; }
+    button.outline:hover:not(:disabled) { background-color: var(--neutral-100); border-color: var(--neutral-400); }
+    .dark-mode button.outline { border-color: var(--dark-border-medium); color: var(--dark-text-secondary); }
+    .dark-mode button.outline:hover:not(:disabled) { background-color: var(--dark-border-light); border-color: var(--dark-border-medium); }
+    .dark-mode button.secondary { color: var(--neutral-900); } /* Ensure contrast */
+    .dark-mode button.warning { color: var(--neutral-900); }
+    .dark-mode button.success { color: var(--neutral-900); }
+
+
+    /* Specific Button Usage */
+    #resetBtn { background-color: var(--danger); }
+    #darkModeToggle {
+        background-color: var(--neutral-700);
+        padding: calc(var(--space-sm) - 2px); /* Make it squarer */
+        font-size: 1.2rem; /* Slightly larger icon */
+        line-height: 1;
+    }
+    .dark-mode #darkModeToggle { background-color: var(--neutral-300); color: var(--neutral-900);}
+    .complete-btn { background-color: var(--success); color: var(--neutral-900); }
+    .undo-btn { background-color: var(--warning); color: var(--neutral-800); }
+    .timer-btn {
+        font-size: 0.85rem;
+        padding: var(--space-xs) var(--space-md);
+        min-width: 95px;
+        box-shadow: none;
+    }
+    .timer-btn.secondary { background-color: var(--secondary); color: var(--neutral-800); } /* Start */
+    .timer-btn.danger { background-color: var(--danger); color: var(--neutral-0); } /* Stop */
+
+    .delete-note-btn { background-color: transparent; border: 1px solid var(--danger); color: var(--danger); padding: var(--space-xs) var(--space-sm); font-size: 0.8rem; box-shadow: none; }
+    .delete-note-btn:hover:not(:disabled) { background-color: rgba(var(--danger-rgb), 0.1); }
+    .dark-mode .delete-note-btn { border-color: var(--danger); color: var(--danger); }
+    .dark-mode .delete-note-btn:hover:not(:disabled) { background-color: rgba(var(--danger-rgb), 0.2); }
+
+
+    /* Forms */
+    .form-group { margin-bottom: var(--space-lg); }
+    label {
+      display: block;
+      margin-bottom: var(--space-sm);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+    }
+    input, textarea, select {
+      display: block;
+      width: 100%;
+      padding: var(--space-sm) var(--space-md);
+      border: 1px solid var(--neutral-300);
+      border-radius: var(--border-radius-md);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: var(--transition-fast);
+      background-color: var(--neutral-0);
+      color: var(--neutral-700); /* Darker input text */
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2); /* Softer focus glow */
+    }
+    input[type="date"] { min-width: 180px; }
+    textarea { min-height: 120px; line-height: 1.5; }
+
+    /* Range Slider */
+    input[type="range"] {
+      height: 8px; padding: 0; background-color: var(--neutral-200); cursor: pointer;
+      -webkit-appearance: none; appearance: none; border-radius: 4px; margin: var(--space-md) 0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 20px; height: 20px; border-radius: 50%; background: var(--primary); cursor: pointer;
+      border: 3px solid var(--neutral-0); box-shadow: var(--shadow-sm); transition: var(--transition-fast);
+    }
+    input[type="range"]::-moz-range-thumb { /* Firefox */
+      width: 20px; height: 20px; border-radius: 50%; background: var(--primary); cursor: pointer;
+      border: 3px solid var(--neutral-0); box-shadow: var(--shadow-sm); transition: var(--transition-fast);
+    }
+    .dark-mode input[type="range"]::-webkit-slider-thumb,
+    .dark-mode input[type="range"]::-moz-range-thumb {
+        border-color: var(--dark-bg-secondary);
+        background: var(--primary-light);
+    }
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.1); }
+    input[type="range"]::-moz-range-thumb:hover { transform: scale(1.1); }
+    #skillLevelDisplay { text-align: center; font-weight: 600; margin-top: var(--space-sm); color: var(--primary); font-size: 0.9rem; }
+
+    /* Schedule Item */
+    .schedule-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start; /* Align items to top */
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+      border-radius: var(--border-radius-md);
+      background-color: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      transition: var(--transition-std);
+      position: relative;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+    }
+    .schedule-item:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .schedule-item.completed { background-color: var(--neutral-100); opacity: 0.7; }
+    .schedule-item.completed .task-title { text-decoration: line-through; color: var(--neutral-400); }
+    .schedule-item.past { opacity: 0.8; }
+
+    /* Style for Break Items */
+    .schedule-item.is-break {
+      background-color: var(--neutral-50); /* Slightly different background */
+      opacity: 0.8;
+      border-left: 3px solid var(--neutral-300); /* Subtle indicator */
+    }
+    .schedule-item.is-break:hover {
+        transform: none; /* Disable hover lift for breaks */
+        box-shadow: var(--shadow-md); /* Keep original shadow */
+    }
+     .schedule-item.is-break .task-title {
+         color: var(--neutral-500); /* Dimmer title */
+         font-style: italic;
+     }
+
+    .time-info {
+      font-weight: 500;
+      min-width: 140px; /* Adjust as needed */
+      color: var(--primary);
+      display: flex;
+      align-items: center; /* Center icon and text vertically */
+      gap: var(--space-sm);
+      flex-shrink: 0;
+      font-size: 0.95rem;
+      padding-top: 2px; /* Align better with task title top */
+    }
+    .task-info {
+      flex-grow: 1;
+      min-width: 220px; /* Prevent excessive shrinking */
+      word-break: break-word; /* Allow long words to break */
+    }
+    .task-title {
+      font-weight: 600;
+      color: var(--neutral-800);
+      font-size: 1.05rem;
+      margin-bottom: var(--space-xs);
+    }
+    .task-description {
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+      line-height: 1.5; /* Improve readability for longer text */
+    }
+    .status-controls {
+      display: flex;
+      gap: var(--space-md);
+      align-items: center; /* Vertically center timer circle and button(s) */
+      flex-shrink: 0;
+      flex-wrap: wrap; /* Allow wrapping if needed */
+      align-self: flex-start; /* Align self to top */
+      padding-top: 2px; /* Match time-info padding */
+      min-height: var(--timer-size); /* Ensure consistent height even if empty */
+    }
+    .status-controls > * { /* Ensure direct children are aligned nicely */
+        display: flex;
+        align-items: center;
+    }
+    .break-indicator { /* Style for the '(Break)' text */
+        color: var(--neutral-400);
+        font-style: italic;
+        font-size: 0.9em;
+        padding: var(--space-sm) 0; /* Add some padding for vertical alignment */
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-xs);
+    }
+    .dark-mode .break-indicator { color: var(--dark-text-disabled); }
+
+    .total-time-display { font-size: 0.85rem; color: var(--neutral-500); min-width: 80px; text-align: right; white-space: nowrap;}
+    .dark-mode .total-time-display { color: var(--dark-text-disabled); }
+    .dark-mode .task-description { color: var(--dark-text-secondary); }
+
+
+    /* --- Enhanced Timer Visual Styles --- */
+    .timer-visual-container { display: flex; align-items: center; gap: var(--space-md); }
+
+    .timer-circle {
+      width: var(--timer-size); height: var(--timer-size);
+      border-radius: 50%; position: relative; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background-color: var(--timer-bg);
+      border: 1px solid var(--neutral-200);
+    }
+    .timer-circle::before { /* Track */
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      background-color: var(--timer-track-bg);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    }
+     .timer-circle::after { /* Progress Arc - Rotated Mask */
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: conic-gradient(var(--timer-progress-bg) 0deg, transparent 0deg);
+        mask: radial-gradient(transparent calc(50% - var(--timer-border-width)), black calc(50% - var(--timer-border-width) + 1px));
+        -webkit-mask: radial-gradient(transparent calc(50% - var(--timer-border-width)), black calc(50% - var(--timer-border-width) + 1px));
+        transform: rotate(calc(var(--progress-angle-rot, 0) * 1deg - 90deg));
+        transition: background var(--transition-fast), transform 0.1s linear; /* Faster transform */
+     }
+
+    .timer-circle.active { animation: pulse 1.8s infinite ease-in-out; }
+    .timer-circle.warning::after { background: conic-gradient(var(--timer-progress-warn-bg) 0deg, transparent 0deg); }
+    .timer-circle.ending::after { background: conic-gradient(var(--timer-progress-end-bg) 0deg, transparent 0deg); }
+
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.3); }
+        70% { box-shadow: 0 0 0 6px rgba(var(--primary-rgb), 0); }
+        100% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0); }
+    }
+    .dark-mode .timer-circle.active { animation-name: pulse-dark; }
+    @keyframes pulse-dark {
+        0% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.4); }
+        70% { box-shadow: 0 0 0 6px rgba(var(--primary-rgb), 0); }
+        100% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0); }
+    }
+
+    .timer-display { /* Text inside */
+      font-size: 0.85rem; font-weight: 600; color: var(--timer-text-color);
+      z-index: 1; position: relative; font-variant-numeric: tabular-nums;
+    }
+    /* --- End Enhanced Timer Visual Styles --- */
+
+    /* Progress Section */
+    .progress-section {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Wider min */
+      gap: var(--space-lg); margin-bottom: var(--space-xl);
+    }
+    .progress-card {
+      padding: var(--space-lg); text-align: center;
+      display: flex; flex-direction: column; justify-content: space-between; /* Align content */
+    }
+    .progress-label { color: var(--neutral-500); font-weight: 500; font-size: 0.9rem; margin-bottom: var(--space-sm); text-transform: uppercase; letter-spacing: 0.5px;}
+    .progress-value {
+      font-size: 2.2rem; /* Larger value */
+      font-weight: 700;
+      font-family: var(--font-heading);
+      color: var(--neutral-800);
+      margin: var(--space-xs) 0 var(--space-md) 0; /* More space below */
+      line-height: 1.1;
+    }
+     #currentStreak { color: var(--secondary); }
+     #longestStreak { color: var(--success); }
+     #timeTrackedToday { color: var(--accent); }
+
+    .progress-bar-container { width: 100%; height: 10px; background-color: var(--neutral-200); border-radius: 5px; margin-top: auto; /* Pushes to bottom */ overflow: hidden; }
+    .progress-bar { height: 100%; background: var(--primary); border-radius: 5px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    #overallTasksProgressBar { background: var(--secondary); }
+    #monthProgressBar { background: var(--accent); }
+
+    /* Streak Visual */
+    .streak-container { display: flex; justify-content: center; gap: var(--space-xs); margin-top: var(--space-sm); min-height: 18px; }
+    .streak-day { width: 16px; height: 16px; border-radius: 4px; background-color: var(--neutral-200); border: none; }
+    .streak-day.completed { background-color: var(--success); }
+    .dark-mode .streak-day { background-color: var(--dark-border-medium); }
+    .dark-mode .streak-day.completed { background-color: var(--success); }
+
+
+    /* Charts */
+    .chart-container { padding: var(--space-lg); height: 380px; /* Slightly taller */ }
+
+    /* Notes */
+    .notes-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--space-lg); }
+    .note-card { padding: var(--space-lg); display: flex; flex-direction: column; /* Ensure footer stays at bottom */ }
+    .note-card-header { margin-bottom: var(--space-md); padding-bottom: var(--space-sm); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-sm);}
+    .note-title { font-size: 1.15rem; font-weight: 600; color: var(--neutral-700); }
+    .badge {
+        font-size: 0.75rem; padding: 3px 8px; border-radius: var(--border-radius-sm);
+        font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+        background-color: var(--primary-light); color: var(--primary-dark); flex-shrink: 0;
+    }
+    .dark-mode .badge { background-color: var(--primary-light); color: var(--dark-bg-primary); }
+    .note-content { font-size: 0.95rem; line-height: 1.7; margin-bottom: var(--space-md); flex-grow: 1; /* Allow content to grow */ }
+    .note-content p { margin-bottom: var(--space-sm); }
+    .note-content strong { font-weight: 600; color: var(--neutral-700); }
+    .note-content code { background-color: var(--neutral-100); padding: 2px 5px; border-radius: 4px; font-size: 0.85em; color: var(--secondary); font-family: monospace; }
+    .note-content ul, .note-content ol { margin-left: var(--space-lg); margin-bottom: var(--space-sm); padding-left: var(--space-sm); /* Indent lists */ }
+    .note-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: var(--space-sm); border-top: 1px solid var(--neutral-100); }
+    .dark-mode .note-card-footer { border-top-color: var(--dark-border-light); }
+    .note-date { font-size: 0.8rem; color: var(--neutral-400); }
+
+    /* Achievements */
+    #achievementsContainer { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-lg); }
+    .achievement-card { display: flex; align-items: center; gap: var(--space-lg); padding: var(--space-lg); opacity: 0.6; border-left: 5px solid var(--neutral-300); transition: var(--transition-std); filter: grayscale(80%); }
+    .achievement-card.unlocked { opacity: 1; border-left-color: var(--success); background-color: var(--neutral-50); filter: grayscale(0%); }
+    .dark-mode .achievement-card { border-left-color: var(--dark-border-medium); background-color: var(--dark-bg-secondary); }
+    .dark-mode .achievement-card.unlocked { background-color: rgba(var(--success-rgb), 0.1); border-left-color: var(--success); }
+    .achievement-icon { font-size: 2.5rem; line-height: 1; }
+    .achievement-info { flex-grow: 1; }
+    .achievement-title { font-weight: 600; font-size: 1.05rem; margin-bottom: var(--space-xs); color: var(--neutral-700); }
+    .achievement-description { font-size: 0.9rem; color: var(--neutral-500); }
+    .achievement-status { font-size: 1.5rem; } /* Larger icon for status */
+    .achievement-status .material-symbols-outlined { font-size: 1.3em; /* Make status icon larger */}
+
+    /* --- Toast Notifications --- */
+    #toast-container {
+      position: fixed;
+      bottom: var(--space-lg);
+      right: var(--space-lg);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      max-width: 350px; /* Limit width */
+    }
+    .toast {
+      background-color: var(--neutral-800);
+      color: var(--neutral-100);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: translateX(calc(100% + var(--space-lg))); /* Start fully off screen */
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.215, 0.610, 0.355, 1); /* Ease out back */
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      border: 1px solid var(--neutral-700);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .toast .material-symbols-outlined { font-size: 1.2em; } /* Adjust icon size in toast */
+    .toast.success { background-color: var(--success); color: var(--neutral-900); border-color: transparent;}
+    .toast.error { background-color: var(--danger); color: var(--neutral-0); border-color: transparent;}
+    .toast.info { background-color: var(--primary); color: var(--neutral-0); border-color: transparent;}
+    .toast.warning { background-color: var(--warning); color: var(--neutral-800); border-color: transparent;}
+    /* --- End Toast Notifications --- */
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .progress-section { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: var(--space-md); }
+      header { padding: var(--space-md) var(--space-lg); flex-direction: column; gap: var(--space-md); text-align: center; }
+      header h1 { font-size: 1.5rem; }
+      .tab-navigation {
+          top: 0; border-radius: 0; margin-left: calc(-1 * var(--space-md)); margin-right: calc(-1 * var(--space-md));
+          padding: 0; /* Remove side padding */
+      }
+      .tab { padding: var(--space-md) var(--space-sm); font-size: 0.9rem; } /* Smaller tab padding */
+      .progress-section { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-md); }
+      .progress-value { font-size: 1.8rem; }
+      .chart-container { height: 300px; }
+      .schedule-item {
+          padding: var(--space-md);
+          gap: var(--space-md);
+          /* Stack items vertically on smaller screens for clarity */
+          flex-direction: column;
+          align-items: stretch; /* Make items take full width */
+      }
+      .time-info {
+         min-width: auto; /* Remove min-width */
+         justify-content: center; /* Center time info when stacked */
+         padding-top: 0; /* Reset padding */
+         margin-bottom: var(--space-sm);
+      }
+      .task-info {
+         text-align: center; /* Center task info when stacked */
+         min-width: auto;
+      }
+      .status-controls {
+          gap: var(--space-sm);
+          flex-basis: auto; /* Allow natural size */
+          justify-content: space-around; /* Space out controls more evenly */
+          margin-top: var(--space-md); /* Add space above controls */
+          padding-top: 0;
+          align-self: stretch; /* Make controls container take full width */
+          width: 100%;
+      }
+      .timer-visual-container { gap: var(--space-sm); }
+      .timer-circle { width: 40px; height: 40px; --timer-border-width: 3px;}
+      .timer-btn { padding: 3px var(--space-sm); font-size: 0.8rem; min-width: 80px; }
+      .total-time-display { min-width: auto; text-align: center; }
+      #toast-container { bottom: var(--space-md); right: var(--space-md); left: var(--space-md); width: auto; max-width: none;}
+    }
+
+     @media (max-width: 480px) {
+         body { font-size: 15px; }
+         .container { padding: var(--space-sm); }
+         header { padding: var(--space-sm) var(--space-md); }
+         header h1 { font-size: 1.3rem; }
+         .tab { font-size: 0.85rem; gap: 2px; } /* Reduce gap */
+         .tab .material-symbols-outlined { font-size: 1em; } /* Smaller icon */
+         .card { padding: var(--space-md); }
+         .card-header { padding-bottom: var(--space-sm); margin-bottom: var(--space-md); flex-direction: column; align-items: flex-start;}
+         .card-title { font-size: 1.1rem; }
+         .progress-section { grid-template-columns: 1fr 1fr; } /* Force 2 columns */
+         .progress-value { font-size: 1.6rem; }
+         .notes-container, #achievementsContainer { grid-template-columns: 1fr; } /* Force 1 column */
+         /* Schedule item already stacked from 768px breakpoint */
+         button { padding: var(--space-sm) var(--space-md); font-size: 0.9rem; }
+         .timer-btn { min-width: 70px; }
+         .delete-note-btn { padding: var(--space-xs); } /* Simpler padding */
+         .note-card-footer { flex-direction: column; align-items: flex-end; gap: var(--space-xs);}
+     }
+
+  </style>
+</head>
+<body>
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <div class="container">
+    <header>
+      <h1><span class="material-symbols-outlined">monitoring</span> Data Engineering Dashboard</h1>
+      <div class="header-controls">
+        <button id="resetBtn" class="danger">
+          <span class="material-symbols-outlined">delete_forever</span> Reset All
+        </button>
+        <button id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
+      </div>
+    </header>
+
+    <div class="tab-navigation">
+      <div class="tab active" data-tab="dailyView"><span class="material-symbols-outlined">today</span> Daily View</div>
+      <div class="tab" data-tab="progress"><span class="material-symbols-outlined">trending_up</span> Progress</div>
+      <div class="tab" data-tab="notes"><span class="material-symbols-outlined">description</span> Notes</div>
+      <div class="tab" data-tab="achievements"><span class="material-symbols-outlined">emoji_events</span> Achievements</div>
+    </div>
+
+    <!-- Daily View Tab -->
+    <div id="dailyView" class="content active">
+       <div class="card">
+          <div class="card-header">
+             <h2 class="card-title" id="dailyViewTitle">Today's View</h2>
+             <div style="display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap;"> <!-- Reduced gap -->
+                <label for="dateSelector" style="margin-bottom: 0; font-weight: 500; white-space: nowrap;">View Date:</label>
+                <input type="date" id="dateSelector">
+                <button id="resetDayBtn" class="warning outline">
+                  <span class="material-symbols-outlined">restart_alt</span> Reset Day
+                </button>
+             </div>
+          </div>
+          <p style="margin-bottom: var(--space-lg); color: var(--neutral-500); font-size: 0.9rem;">
+            View your schedule, focus, and reflection. Timers and editing are only available for today's date. Break items are shown for context.
+          </p>
+
+          <div id="scheduleContainer">
+             <p style="text-align: center; color: var(--neutral-400);">Loading schedule...</p>
+          </div>
+       </div>
+
+       <div class="card">
+          <div class="card-header">
+             <h2 class="card-title"><span class="material-symbols-outlined">target</span> Daily Focus</h2>
+          </div>
+          <div class="form-group">
+             <label for="dailyFocus">Primary focus for <span class="selected-date-label">today</span>:</label>
+             <input type="text" id="dailyFocus" placeholder="e.g., Master SQL joins, Setup S3 bucket...">
+          </div>
+          <button id="saveFocusBtn" class="success"><span class="material-symbols-outlined">save</span> Save Focus</button>
+       </div>
+
+       <div class="card">
+          <div class="card-header">
+             <h2 class="card-title"><span class="material-symbols-outlined">edit_note</span> Daily Reflection</h2>
+          </div>
+          <div class="form-group">
+             <label for="reflectionText">Reflection for <span class="selected-date-label">today</span>:</label>
+             <textarea id="reflectionText" rows="4" placeholder="What went well? What challenges arose? What to improve tomorrow?"></textarea>
+          </div>
+          <button id="saveReflectionBtn"><span class="material-symbols-outlined">save</span> Save Reflection</button>
+       </div>
+    </div>
+
+
+    <!-- Progress Tab -->
+    <div id="progress" class="content">
+      <div class="progress-section">
+        <div class="card progress-card">
+          <div class="progress-label">Tasks Completed Today</div>
+          <div class="progress-value" id="tasksCompletedToday">0/0</div> <!-- Default to 0/0 -->
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="tasksTodayProgressBar" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="card progress-card">
+          <div class="progress-label">Overall Completion</div>
+          <div class="progress-value" id="overallTasksCompleted">0%</div>
+           <div class="progress-bar-container">
+             <div class="progress-bar" id="overallTasksProgressBar" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="card progress-card">
+          <div class="progress-label">Current Streak</div>
+          <div class="progress-value" id="currentStreak">0 days</div>
+           <div class="streak-container" id="currentStreakContainer"></div>
+        </div>
+         <div class="card progress-card">
+           <div class="progress-label">Longest Streak</div>
+           <div class="progress-value" id="longestStreak">0 days</div>
+            <div class="streak-container" id="longestStreakContainer"></div>
+         </div>
+         <div class="card progress-card">
+           <div class="progress-label">Time Tracked Today</div>
+           <div class="progress-value" id="timeTrackedToday">0m</div> <!-- Default to 0m -->
+           <p style="font-size: 0.8rem; color: var(--neutral-400); margin-top: var(--space-xs);">via Timers</p>
+         </div>
+        <div class="card progress-card">
+          <div class="progress-label">Journey Progress</div>
+          <div class="progress-value" id="monthProgress">0%</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="monthProgressBar" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-symbols-outlined">bar_chart</span> Weekly Activity</h2>
+        </div>
+        <div class="chart-container" id="weeklyActivityChart">
+          <canvas id="activityChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-symbols-outlined">radar</span> Skill Levels</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-lg); align-items: end;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="skillSelect">Select Skill</label>
+              <select id="skillSelect">
+                <option value="aws">AWS</option>
+                <option value="sql">SQL</option>
+                <option value="python">Python</option>
+                <option value="dataEngineering">Data Engineering</option>
+                 <option value="communication">Communication</option>
+                 <option value="problemSolving">Problem Solving</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="skillLevel">Set Level (1-10)</label>
+              <input type="range" id="skillLevel" min="1" max="10" value="1" style="margin: var(--space-xs) 0;">
+              <div id="skillLevelDisplay">Level: 1/10</div>
+            </div>
+             <button id="saveSkillBtn" style="margin-bottom: 0;"><span class="material-symbols-outlined">upgrade</span> Update</button>
+        </div>
+
+
+        <div class="chart-container" id="skillProgressChart" style="margin-top: var(--space-lg);">
+          <canvas id="skillChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes Tab -->
+    <div id="notes" class="content">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-symbols-outlined">add_notes</span> Add New Note</h2>
+        </div>
+        <div class="form-group">
+          <label for="noteTitle">Title</label>
+          <input type="text" id="noteTitle" placeholder="Concise title for your note">
+        </div>
+        <div class="form-group">
+          <label for="noteContent">Content (Markdown supported)</label>
+          <textarea id="noteContent" rows="6" placeholder="Write details here... Use **bold**, *italic*, `code`, - lists..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="noteCategory">Category</label>
+          <select id="noteCategory">
+            <option value="aws">AWS</option>
+            <option value="sql">SQL</option>
+            <option value="python">Python</option>
+             <option value="dataEngineering">Data Engineering Concepts</option>
+            <option value="interview">Interview Prep</option>
+            <option value="project">Project Ideas</option>
+             <option value="networking">Networking</option>
+            <option value="general">General</option>
+          </select>
+        </div>
+        <button id="saveNoteBtn" class="success"><span class="material-symbols-outlined">save</span> Save Note</button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-symbols-outlined">article</span> Your Notes</h2>
+          <select id="noteCategoryFilter" aria-label="Filter notes by category">
+            <option value="all">All Categories</option>
+            <option value="aws">AWS</option>
+            <option value="sql">SQL</option>
+            <option value="python">Python</option>
+             <option value="dataEngineering">Data Engineering Concepts</option>
+            <option value="interview">Interview Prep</option>
+            <option value="project">Project Ideas</option>
+             <option value="networking">Networking</option>
+            <option value="general">General</option>
+          </select>
+        </div>
+        <div class="notes-container" id="notesContainer">
+          <p style="text-align: center; color: var(--neutral-400); grid-column: 1 / -1;">Loading notes...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievements Tab -->
+    <div id="achievements" class="content">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-symbols-outlined">workspace_premium</span> Achievements</h2>
+        </div>
+        <div id="achievementsContainer">
+          <p style="text-align: center; color: var(--neutral-400);">Loading achievements...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    // --- Global Variables ---
+    let activeTimer = { taskId: null, intervalId: null, startTime: null, sessionSeconds: 0 };
+    const TODAY_STRING = new Date().toISOString().split('T')[0];
+    const POMODORO_SECONDS = 1500; // 25 minutes (Visual cycle duration)
+    const TIMER_WARN_THRESHOLD = 0.8;
+    const TIMER_END_THRESHOLD = 0.95;
+
+    // --- Initialization ---
+    function initializeData() {
+       let data = JSON.parse(localStorage.getItem('deJourneyData'));
+       if (!data || typeof data !== 'object' || !data.schedule) { // Also check for schedule existence
+          data = {
+             schedule: [ // Use user's schedule template
+                { id: 1, timeSlot: '8:30 AM - 9:00 AM', duration: '30 mins', title: 'Plan & Review', description: 'Set daily goals (small, specific), review yesterday, quick concept recap.', category: 'planning' },
+                { id: 2, timeSlot: '9:00 AM - 10:30 AM', duration: '1.5 hours', title: 'Project Building', description: 'Work on independent pipeline project. Code first, reference/AI second. Commit progress.', category: 'project' },
+                { id: 3, timeSlot: '10:30 AM - 10:45 AM', duration: '15 mins', title: 'Break', description: 'Step away from the screen.', category: 'break' },
+                { id: 4, timeSlot: '10:45 AM - 12:00 PM', duration: '1.25 hours', title: 'Targeted Practice', description: 'SQL (Mon/Wed/Fri) or Python (Tue/Thu) practice (LeetCode, HackerRank, etc.). Active recall.', category: 'practice' }, // Category could be dynamic later if needed
+                { id: 5, timeSlot: '12:00 PM - 1:00 PM', duration: '1 hour', title: 'Lunch & Unwind', description: 'Complete break from work.', category: 'break' },
+                { id: 6, timeSlot: '1:00 PM - 2:30 PM', duration: '1.5 hours', title: 'Cloud Learning/Cert Study', description: 'Work through AWS/Azure/GCP modules. Focus on DE services. Hands-on labs.', category: 'cloud' },
+                { id: 7, timeSlot: '2:30 PM - 2:45 PM', duration: '15 mins', title: 'Break', description: 'Short break.', category: 'break' },
+                { id: 8, timeSlot: '2:45 PM - 4:00 PM', duration: '1.25 hours', title: 'Job Application & Network', description: 'Find 2-3 roles, tailor resume/cover letter, apply. Optional: LinkedIn engagement.', category: 'jobsearch' },
+                { id: 9, timeSlot: '4:00 PM - 4:45 PM', duration: '45 mins', title: 'Flexible / Interview Prep', description: 'Continue applying, refine portfolio, practice behavioral questions (STAR), review concepts.', category: 'interviewprep' },
+                { id: 10, timeSlot: '4:45 PM - 5:00 PM', duration: '15 mins', title: 'Wrap-up & Plan', description: 'Log today\'s accomplishments, list priorities for tomorrow. Shutdown work mode.', category: 'review' }
+             ],
+             dailyData: {}, notes: [],
+             skills: { aws: { current: 1, history: [] }, sql: { current: 1, history: [] }, python: { current: 1, history: [] }, dataEngineering: { current: 1, history: [] }, communication: { current: 1, history: [] }, problemSolving: { current: 1, history: [] } },
+             achievements: [ /* Default achievements */
+                { id: 'first-day', title: 'First Day Complete', description: 'Completed your first day (>=3 non-break tasks)', unlocked: false, icon: '🚀' },
+                { id: 'three-day-streak', title: '3-Day Streak', description: 'Completed three consecutive days (>=2 non-break tasks/day)', unlocked: false, icon: '🔥' },
+                { id: 'week-streak', title: 'Week Warrior', description: 'Completed a full week (>=2 non-break tasks/day)', unlocked: false, icon: '⚔️' },
+                { id: 'aws-novice', title: 'AWS Explorer', description: 'Reached level 3 in AWS skills', unlocked: false, icon: '☁️' },
+                { id: 'sql-novice', title: 'SQL Adept', description: 'Reached level 3 in SQL skills', unlocked: false, icon: '💾' },
+                { id: 'python-novice', title: 'Python Scripter', description: 'Reached level 3 in Python skills', unlocked: false, icon: '🐍' },
+                { id: 'first-project', title: 'Project Pioneer', description: 'Tracked > 1 hour on project tasks', unlocked: false, icon: '🏗️' },
+                { id: 'time-tracker', title: 'Time Tracker', description: 'Tracked time for 3 different tasks today', unlocked: false, icon: '⏱️' },
+                { id: 'focused-day', title: 'Focused Day', description: 'Saved a daily focus entry', unlocked: false, icon: '🎯' },
+                { id: 'reflective-learner', title: 'Reflective Learner', description: 'Saved 3 daily reflections', unlocked: false, icon: '💡' },
+                { id: 'notes-master', title: 'Notes Master', description: 'Created 5 notes', unlocked: false, icon: '📚' },
+                { id: 'aws-intermediate', title: 'AWS Architect', description: 'Reached level 5 in AWS skills', unlocked: false, icon: '☁️☁️' },
+                { id: 'halfway', title: 'Halfway There!', description: 'Reached day 15 of tracking', unlocked: false, icon: '🏆' },
+                { id: 'full-month', title: 'Month Complete!', description: 'Completed 30 days of tracking', unlocked: false, icon: '🌟' }
+             ],
+             startDate: new Date().toISOString(),
+             darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
+             longestStreak: 0
+          };
+           const initialHistoryEntry = { date: TODAY_STRING, level: 1 };
+           Object.keys(data.skills).forEach(key => { data.skills[key].history = [ { ...initialHistoryEntry } ]; });
+           saveData(data); // Save the initialized structure
+       } else {
+          // --- Migration checks for existing users ---
+          let needsSave = false;
+          // Check if schedule exists and is an array, otherwise force update
+           if (!data.schedule || !Array.isArray(data.schedule) || data.schedule.length === 0) {
+                 console.warn("Existing schedule data invalid or missing, resetting to template.");
+                 data.schedule = [ // Paste user's schedule template again
+                    { id: 1, timeSlot: '8:30 AM - 9:00 AM', duration: '30 mins', title: 'Plan & Review', description: 'Set daily goals, review yesterday, quick concept recap.', category: 'planning' },
+                    { id: 2, timeSlot: '9:00 AM - 10:30 AM', duration: '1.5 hours', title: 'Project Building', description: 'Work on independent pipeline project. Commit progress.', category: 'project' },
+                    { id: 3, timeSlot: '10:30 AM - 10:45 AM', duration: '15 mins', title: 'Break', description: 'Step away from the screen.', category: 'break' },
+                    { id: 4, timeSlot: '10:45 AM - 12:00 PM', duration: '1.25 hours', title: 'Targeted Practice', description: 'SQL or Python practice (LeetCode, HackerRank, etc.)', category: 'practice' },
+                    { id: 5, timeSlot: '12:00 PM - 1:00 PM', duration: '1 hour', title: 'Lunch & Unwind', description: 'Complete break from work.', category: 'break' },
+                    { id: 6, timeSlot: '1:00 PM - 2:30 PM', duration: '1.5 hours', title: 'Cloud Learning/Cert Study', description: 'Work through AWS/Azure/GCP modules. Focus on DE services', category: 'cloud' },
+                    { id: 7, timeSlot: '2:30 PM - 2:45 PM', duration: '15 mins', title: 'Break', description: 'Short break.', category: 'break' },
+                    { id: 8, timeSlot: '2:45 PM - 4:00 PM', duration: '1.25 hours', title: 'Job Application & Network', description: 'Find 2-3 roles, tailor resume, LinkedIn engagement.', category: 'jobsearch' },
+                    { id: 9, timeSlot: '4:00 PM - 4:45 PM', duration: '45 mins', title: 'Flexible / Interview Prep', description: 'Refine portfolio, practice behavioral questions review concepts.', category: 'interviewprep' },
+                    { id: 10, timeSlot: '4:45 PM - 5:00 PM', duration: '15 mins', title: 'Wrap-up & Plan', description: 'Log today\'s accomplishments, list priorities for tomorrow. Shutdown work mode.', category: 'review' }
+                 ];
+                 needsSave = true;
+           }
+          // Add other migration checks as before...
+          if (data.longestStreak === undefined) { data.longestStreak = 0; needsSave = true; }
+          if (!data.skills) {
+              data.skills = { aws: { current: 1, history: [] }, sql: { current: 1, history: [] }, python: { current: 1, history: [] }, dataEngineering: { current: 1, history: [] }, communication: { current: 1, history: [] }, problemSolving: { current: 1, history: [] } };
+              const initialHistoryEntry = { date: TODAY_STRING, level: 1 };
+              Object.keys(data.skills).forEach(key => data.skills[key].history = [{ ...initialHistoryEntry }]);
+              needsSave = true;
+          } else {
+              const defaultSkills = ['aws', 'sql', 'python', 'dataEngineering', 'communication', 'problemSolving'];
+              defaultSkills.forEach(skillKey => {
+                  if (!data.skills[skillKey]) {
+                      data.skills[skillKey] = { current: 1, history: [{ date: TODAY_STRING, level: 1 }] }; needsSave = true;
+                  } else if (!data.skills[skillKey].history || !Array.isArray(data.skills[skillKey].history)) {
+                     data.skills[skillKey].history = [{ date: TODAY_STRING, level: data.skills[skillKey].current || 1 }]; needsSave = true;
+                  }
+              });
+          }
+          if (!data.achievements || !Array.isArray(data.achievements)) { data.achievements = []; needsSave = true; }
+
+           const defaultAchievements = [ // Same list as above
+                { id: 'first-day', title: 'First Day Complete', description: 'Completed your first day (>=3 non-break tasks)', unlocked: false, icon: '🚀' },
+                { id: 'three-day-streak', title: '3-Day Streak', description: 'Completed three consecutive days (>=2 non-break tasks/day)', unlocked: false, icon: '🔥' },
+                { id: 'week-streak', title: 'Week Warrior', description: 'Completed a full week (>=2 non-break tasks/day)', unlocked: false, icon: '⚔️' },
+                { id: 'aws-novice', title: 'AWS Explorer', description: 'Reached level 3 in AWS skills', unlocked: false, icon: '☁️' },
+                { id: 'sql-novice', title: 'SQL Adept', description: 'Reached level 3 in SQL skills', unlocked: false, icon: '💾' },
+                { id: 'python-novice', title: 'Python Scripter', description: 'Reached level 3 in Python skills', unlocked: false, icon: '🐍' },
+                { id: 'first-project', title: 'Project Pioneer', description: 'Tracked > 1 hour on project tasks', unlocked: false, icon: '🏗️' },
+                { id: 'time-tracker', title: 'Time Tracker', description: 'Tracked time for 3 different tasks today', unlocked: false, icon: '⏱️' },
+                { id: 'focused-day', title: 'Focused Day', description: 'Saved a daily focus entry', unlocked: false, icon: '🎯' },
+                { id: 'reflective-learner', title: 'Reflective Learner', description: 'Saved 3 daily reflections', unlocked: false, icon: '💡' },
+                { id: 'notes-master', title: 'Notes Master', description: 'Created 5 notes', unlocked: false, icon: '📚' },
+                { id: 'aws-intermediate', title: 'AWS Architect', description: 'Reached level 5 in AWS skills', unlocked: false, icon: '☁️☁️' },
+                { id: 'halfway', title: 'Halfway There!', description: 'Reached day 15 of tracking', unlocked: false, icon: '🏆' },
+                { id: 'full-month', title: 'Month Complete!', description: 'Completed 30 days of tracking', unlocked: false, icon: '🌟' }
+           ];
+          defaultAchievements.forEach(defAch => {
+              const existingAch = data.achievements.find(a => a.id === defAch.id);
+              if (!existingAch) { data.achievements.push({...defAch}); needsSave = true; }
+              else {
+                  if (existingAch.title !== defAch.title || existingAch.description !== defAch.description || existingAch.icon !== defAch.icon) {
+                      existingAch.title = defAch.title; existingAch.description = defAch.description; existingAch.icon = defAch.icon; needsSave = true;
+                  }
+                  if (typeof existingAch.unlocked !== 'boolean') { existingAch.unlocked = !!existingAch.unlocked; needsSave = true; }
+              }
+          });
+          if (data.schedule && Array.isArray(data.schedule)) {
+              data.schedule.forEach(item => {
+                  if (item.description === undefined) { item.description = 'Default description.'; needsSave = true; }
+                  if (item.category === undefined) { item.category = 'general'; needsSave = true; }
+                  if (item.duration === undefined) { item.duration = 'N/A'; needsSave = true; }
+              });
+          }
+           if (typeof data.darkMode !== 'boolean') { data.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches; needsSave = true; }
+
+          if (needsSave) saveData(data);
+       }
+       return data;
+    }
+
+    // --- Data Handling ---
+    function saveData(data) {
+      try { localStorage.setItem('deJourneyData', JSON.stringify(data)); }
+      catch (e) { console.error("Error saving data:", e); showToast("Error saving data.", "error"); }
+    }
+    function getData() {
+      try {
+        const rawData = localStorage.getItem('deJourneyData');
+        if (!rawData) return initializeData();
+        const parsedData = JSON.parse(rawData);
+        if (typeof parsedData === 'object' && parsedData !== null && parsedData.schedule && parsedData.dailyData && parsedData.skills && parsedData.achievements) { return parsedData; }
+        else { console.warn("Stored data invalid. Re-initializing."); localStorage.removeItem('deJourneyData'); return initializeData(); }
+      } catch (e) { console.error("Error reading data:", e); showToast("Error reading data.", "error"); localStorage.removeItem('deJourneyData'); return initializeData(); }
+    }
+
+    // --- Date and Time Formatting ---
+    function formatDate(date) {
+       const d = (date instanceof Date) ? date : new Date(date);
+       if (isNaN(d.getTime())) return "Invalid Date";
+       return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    function formatTime(totalSeconds, mode = 'timer') {
+         if (isNaN(totalSeconds) || totalSeconds < 0) totalSeconds = 0;
+         const hours = Math.floor(totalSeconds / 3600);
+         const minutes = Math.floor((totalSeconds % 3600) / 60);
+         const seconds = Math.floor(totalSeconds % 60);
+         if (mode === 'timer') {
+             const displayMinutes = String(minutes).padStart(2, '0');
+             const displaySeconds = String(seconds).padStart(2, '0'); return `${displayMinutes}:${displaySeconds}`;
+         } else if (mode === 'total') {
+             let parts = []; if (hours > 0) parts.push(`${hours}h`); if (minutes > 0 || (hours > 0 && seconds === 0)) parts.push(`${minutes}m`); if ((hours === 0 && minutes < 10 && seconds > 0) || (hours === 0 && minutes === 0 && seconds > 0)) { parts.push(`${seconds}s`); } if (parts.length === 0 && totalSeconds === 0) return "0s"; if (parts.length === 0 && totalSeconds > 0) return `${Math.round(totalSeconds)}s`; return parts.join(' ');
+         } else {
+              let parts = []; if (hours > 0) parts.push(`${hours}h`); if (minutes > 0 || hours > 0) parts.push(`${minutes}m`); if (parts.length === 0) return "0m"; return parts.join(' ');
+         }
+     }
+
+    // --- Toast Notifications ---
+    function showToast(message, type = 'info', duration = 3500) {
+      const container = document.getElementById('toast-container'); if (!container) return;
+      const toast = document.createElement('div'); toast.className = `toast ${type}`;
+      let iconHtml = '';
+      switch(type) { case 'success': iconHtml = '<span class="material-symbols-outlined">check_circle</span>'; break; case 'error': iconHtml = '<span class="material-symbols-outlined">error</span>'; break; case 'warning': iconHtml = '<span class="material-symbols-outlined">warning</span>'; break; case 'info': iconHtml = '<span class="material-symbols-outlined">info</span>'; break; }
+      toast.innerHTML = `${iconHtml} ${message}`; container.appendChild(toast);
+      requestAnimationFrame(() => { requestAnimationFrame(() => { toast.classList.add('show'); }); });
+      setTimeout(() => { toast.classList.remove('show'); toast.addEventListener('transitionend', () => toast.remove(), { once: true }); }, duration);
+    }
+
+    // --- UI Rendering ---
+    function getSelectedDate() { return document.getElementById('dateSelector').value || TODAY_STRING; }
+
+    function loadDailyData(selectedDate) {
+        const data = getData();
+        const dateData = data.dailyData[selectedDate] || { completedTasks: [], focus: '', reflection: '', taskTimers: {} };
+        const isToday = (selectedDate === TODAY_STRING);
+        document.getElementById('dailyFocus').value = dateData.focus || '';
+        document.getElementById('reflectionText').value = dateData.reflection || '';
+        document.getElementById('dailyFocus').disabled = !isToday;
+        document.getElementById('reflectionText').disabled = !isToday;
+        document.getElementById('saveFocusBtn').disabled = !isToday;
+        document.getElementById('saveReflectionBtn').disabled = !isToday;
+        document.getElementById('resetDayBtn').disabled = !isToday;
+        document.querySelectorAll('.selected-date-label').forEach(el => { el.textContent = isToday ? 'today' : `on ${formatDate(selectedDate)}`; });
+        document.getElementById('dailyViewTitle').textContent = isToday ? "Today's View" : `${formatDate(selectedDate)} View`;
+        renderSchedule(selectedDate);
+        updateProgressMetrics();
+    }
+
+    function renderSchedule(selectedDate) {
+       const data = getData();
+       const scheduleContainer = document.getElementById('scheduleContainer');
+       if (!scheduleContainer) { console.error("Schedule container not found!"); return; }
+       scheduleContainer.innerHTML = ''; // Clear previous items
+       const isToday = (selectedDate === TODAY_STRING);
+       const dailyScheduleData = data.dailyData[selectedDate] || { completedTasks: [], taskTimers: {} };
+       const now = new Date();
+       const currentHour = now.getHours();
+       const currentMinute = now.getMinutes();
+
+       if (!data.schedule || data.schedule.length === 0) {
+           scheduleContainer.innerHTML = '<p style="text-align: center; color: var(--neutral-400);">No schedule defined.</p>';
+           return;
+       }
+
+       data.schedule.forEach(item => {
+          // --- FILTER REMOVED: Breaks will now be rendered ---
+          // if (item.category === 'break') { return; }
+
+          const isBreak = item.category === 'break'; // Check if it's a break item
+
+          const scheduleItem = document.createElement('div');
+          scheduleItem.className = 'schedule-item';
+          scheduleItem.dataset.taskId = item.id;
+          if (isBreak) { scheduleItem.classList.add('is-break'); } // Add class for styling breaks
+
+          const isCompleted = dailyScheduleData.completedTasks?.includes(item.id);
+          let isCurrent = false;
+          let isUpcoming = false;
+
+          if (isToday) {
+             try { // Time parsing logic... (kept the same)
+                 const timeParts = item.timeSlot.match(/(\d{1,2}):(\d{2})\s*(AM|PM)\s*-\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+                 if (timeParts) {
+                     let startHour = parseInt(timeParts[1]), endHour = parseInt(timeParts[4]); const startMinute = parseInt(timeParts[2]), endMinute = parseInt(timeParts[5]); const startPeriod = timeParts[3].toUpperCase(), endPeriod = timeParts[6].toUpperCase();
+                     if (startPeriod === 'PM' && startHour !== 12) startHour += 12; if (startPeriod === 'AM' && startHour === 12) startHour = 0; if (endPeriod === 'PM' && endHour !== 12) endHour += 12; if (endPeriod === 'AM' && endHour === 12) { endHour = (startPeriod === 'PM') ? 24 : 0; } if (endHour === 0 && startHour > 0) endHour = 24;
+                     const currentTimeMinutes = currentHour * 60 + currentMinute; const startTimeMinutes = startHour * 60 + startMinute; let endTimeMinutes = endHour * 60 + endMinute; if (endTimeMinutes < startTimeMinutes) endTimeMinutes += 24*60;
+                     isCurrent = currentTimeMinutes >= startTimeMinutes && currentTimeMinutes < endTimeMinutes; isUpcoming = currentTimeMinutes < startTimeMinutes;
+                 }
+             } catch (e) { console.error("Time parse error for task", item.id, ":", e); }
+          }
+
+          scheduleItem.classList.toggle('completed', !!isCompleted && !isBreak); // Breaks cannot be completed
+          scheduleItem.classList.toggle('past', !isToday || (isToday && !isCurrent && !isUpcoming && !isCompleted));
+          scheduleItem.classList.toggle('upcoming', isToday && isUpcoming && !isCompleted);
+
+          const totalTimeStoredSeconds = dailyScheduleData.taskTimers?.[item.id] || 0;
+          const totalTimeFormatted = formatTime(totalTimeStoredSeconds, 'total');
+
+          let completeButtonHtml = '';
+          let timerControlsHtml = '';
+          const timerActive = (activeTimer.taskId === item.id);
+
+          if (isToday && !isBreak) { // --- Only show controls if it's today AND NOT a break ---
+              completeButtonHtml = isCompleted
+                  ? `<button class="undo-btn warning outline" data-id="${item.id}"><span class="material-symbols-outlined">undo</span>Undo</button>`
+                  : `<button class="complete-btn success" data-id="${item.id}"><span class="material-symbols-outlined">check_circle</span>Complete</button>`;
+
+              const timerButtonText = timerActive ? 'Stop Timer' : 'Start Timer';
+              const timerButtonClass = timerActive ? 'danger' : 'secondary';
+              const timerIcon = timerActive ? 'stop_circle' : 'play_circle';
+              const startButtonDisabled = activeTimer.taskId && !timerActive;
+              const currentSessionDisplay = formatTime(timerActive ? activeTimer.sessionSeconds : 0, 'timer');
+
+              timerControlsHtml = `
+                  <div class="timer-visual-container">
+                      <div class="timer-circle ${timerActive ? 'active' : ''}" data-task-id="${item.id}" style="--progress-angle-rot: 0deg;">
+                          <span class="timer-display">${currentSessionDisplay}</span>
+                      </div>
+                      <button class="timer-btn ${timerButtonClass}" data-id="${item.id}" ${startButtonDisabled ? 'disabled' : ''}>
+                          <span class="material-symbols-outlined">${timerIcon}</span>${timerButtonText}
+                      </button>
+                  </div>
+                  <span class="total-time-display">Total: ${totalTimeFormatted}</span>`;
+
+              if (timerActive) {
+                  requestAnimationFrame(() => updateTimerVisual(item.id, activeTimer.sessionSeconds));
+              }
+
+          } else if (isBreak) { // --- Handling for Break items ---
+                completeButtonHtml = ''; // No complete button for breaks
+                timerControlsHtml = `<span class="break-indicator"><span class="material-symbols-outlined">coffee</span> Break</span>`; // Show break text
+
+          } else { // --- Handling for Past Days (Non-Breaks) ---
+              timerControlsHtml = `<span class="total-time-display">${totalTimeStoredSeconds > 0 ? `Tracked: ${totalTimeFormatted}` : 'Not Tracked'}</span>`;
+              if (isCompleted) {
+                 completeButtonHtml = `<span style="color: var(--success); font-weight: 500; display: inline-flex; align-items: center; gap: var(--space-xs);"><span class="material-symbols-outlined">check</span>Completed</span>`;
+              } else {
+                 completeButtonHtml = `<span style="color: var(--neutral-400); font-size: 0.9em;">Not Completed</span>`;
+              }
+          }
+
+          // --- Render the item ---
+          scheduleItem.innerHTML = `
+             <div class="time-info"><span class="material-symbols-outlined">schedule</span>${item.timeSlot}</div>
+             <div class="task-info">
+                <div class="task-title">${item.title}</div>
+                <div class="task-description">${item.description || ''}</div>
+             </div>
+             <div class="status-controls">
+                 ${timerControlsHtml}
+                 ${completeButtonHtml}
+             </div>`;
+          scheduleContainer.appendChild(scheduleItem);
+       });
+
+       addScheduleButtonListeners(isToday);
+       if(isToday) updateAllTimerButtonsState();
+     }
+
+    function addScheduleButtonListeners(isToday) {
+        if (isToday) {
+             const scheduleContainer = document.getElementById('scheduleContainer');
+             if (scheduleContainer && !scheduleContainer._hasScheduleListeners) {
+                 scheduleContainer.addEventListener('click', function(event) {
+                     const button = event.target.closest('button[data-id]'); // Target only buttons with data-id
+                     if (!button) return;
+
+                     const scheduleItem = button.closest('.schedule-item');
+                     // --- Do not process clicks on buttons within break items ---
+                     if (scheduleItem && scheduleItem.classList.contains('is-break')) {
+                         return;
+                     }
+
+                     const taskId = parseInt(button.dataset.id);
+                     if (isNaN(taskId)) return;
+
+                     if (button.classList.contains('complete-btn')) {
+                         completeTask(taskId, getSelectedDate());
+                     } else if (button.classList.contains('undo-btn')) {
+                         undoTask(taskId, getSelectedDate());
+                     } else if (button.classList.contains('timer-btn')) {
+                         if (button.classList.contains('danger')) { stopTimer(taskId); }
+                         else { startTimer(taskId); }
+                     }
+                 });
+                 scheduleContainer._hasScheduleListeners = true;
+             }
+        }
+    }
+
+    function renderNotes() { // Unchanged from previous version
+      const data = getData();
+      const notesContainer = document.getElementById('notesContainer');
+      const categoryFilter = document.getElementById('noteCategoryFilter').value;
+      notesContainer.innerHTML = '';
+      const filteredNotes = categoryFilter === 'all' ? data.notes : data.notes.filter(note => note.category === categoryFilter);
+      if (filteredNotes.length === 0) { notesContainer.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: var(--neutral-400); padding: var(--space-lg) 0;">No notes found matching the criteria.</p>`; return; }
+      filteredNotes.sort((a, b) => new Date(b.date) - new Date(a.date));
+      filteredNotes.forEach(note => {
+        const noteCard = document.createElement('div'); noteCard.className = 'note-card';
+        const renderedContent = marked.parse(note.content || '', { breaks: true, gfm: true, smartypants: true, sanitize: false });
+        noteCard.innerHTML = `
+          <div class="note-card-header"><h3 class="note-title">${note.title}</h3><span class="badge">${note.category}</span></div>
+           <div class="note-content">${renderedContent}</div>
+           <div class="note-card-footer"><span class="note-date">${formatDate(new Date(note.date))}</span><button class="delete-note-btn" data-id="${note.id}" aria-label="Delete note titled ${note.title}"><span class="material-symbols-outlined">delete</span></button></div>`;
+        notesContainer.appendChild(noteCard);
+      });
+      if (!notesContainer._hasDeleteListener) {
+          notesContainer.addEventListener('click', function(event) { const deleteButton = event.target.closest('.delete-note-btn'); if (deleteButton) { const noteId = parseInt(deleteButton.dataset.id); if (!isNaN(noteId)) { deleteNote(noteId); } } });
+           notesContainer._hasDeleteListener = true;
+      }
+    }
+
+    function renderAchievements() { // Unchanged from previous version
+       const data = getData(); const achievementsContainer = document.getElementById('achievementsContainer'); achievementsContainer.innerHTML = '';
+       if (!data.achievements || data.achievements.length === 0) { achievementsContainer.innerHTML = "<p style='text-align: center; color: var(--neutral-400); padding: var(--space-lg) 0;'>No achievements available yet.</p>"; return; }
+       const sortedAchievements = [...data.achievements].sort((a, b) => { if (a.unlocked !== b.unlocked) { return a.unlocked ? -1 : 1; } return a.title.localeCompare(b.title); });
+       sortedAchievements.forEach(achievement => {
+         const card = document.createElement('div'); card.className = `achievement-card ${achievement.unlocked ? 'unlocked' : ''}`;
+         card.innerHTML = `<div class="achievement-icon">${achievement.icon}</div><div class="achievement-info"><div class="achievement-title">${achievement.title}</div><div class="achievement-description">${achievement.description}</div></div><div class="achievement-status">${achievement.unlocked ? '<span class="material-symbols-outlined" style="color: var(--success);">verified</span>' : '<span class="material-symbols-outlined" style="color: var(--neutral-400);">lock</span>'}</div>`;
+         achievementsContainer.appendChild(card);
+       });
+     }
+
+    // --- Core Logic ---
+    function completeTask(taskId, selectedDate) { // Unchanged
+       if (selectedDate !== TODAY_STRING) { showToast("Can only complete tasks for today.", "warning"); return; }
+       const data = getData();
+       // Ensure task exists and is not a break before completing
+       const task = data.schedule.find(t => t.id === taskId);
+       if (!task || task.category === 'break') { showToast("Cannot complete this item.", "warning"); return; }
+
+       if (!data.dailyData[selectedDate]) data.dailyData[selectedDate] = { completedTasks: [], focus: '', reflection: '', taskTimers: {} };
+       if (!data.dailyData[selectedDate].completedTasks) data.dailyData[selectedDate].completedTasks = [];
+       if (!data.dailyData[selectedDate].completedTasks.includes(taskId)) {
+         data.dailyData[selectedDate].completedTasks.push(taskId); saveData(data); renderSchedule(selectedDate); updateProgressMetrics(); checkAchievements(); showToast(`Task marked complete! Well done!`, 'success');
+       }
+     }
+
+     function undoTask(taskId, selectedDate) { // Unchanged
+        if (selectedDate !== TODAY_STRING) { showToast("Can only undo tasks for today.", "warning"); return; }
+        const data = getData();
+        if (data.dailyData[selectedDate]?.completedTasks) {
+            const index = data.dailyData[selectedDate].completedTasks.indexOf(taskId);
+            if (index > -1) { data.dailyData[selectedDate].completedTasks.splice(index, 1); saveData(data); renderSchedule(selectedDate); updateProgressMetrics(); showToast(`Task marked incomplete.`, 'info'); }
+        }
+     }
+
+     // --- Timer Logic ---
+     function startTimer(taskId) { // Added check for break category
+        if (activeTimer.taskId && activeTimer.taskId !== taskId) { showToast("Another timer is already running.", "warning"); return; }
+        if (activeTimer.taskId === taskId) return;
+
+        const data = getData();
+         // Ensure task exists and is not a break before timing
+        const task = data.schedule.find(t => t.id === taskId);
+        if (!task || task.category === 'break') { showToast("Cannot time breaks.", "warning"); return; }
+
+        const today = TODAY_STRING;
+        if (!data.dailyData[today]) data.dailyData[today] = { completedTasks: [], focus: '', reflection: '', taskTimers: {} };
+        if (!data.dailyData[today].taskTimers) data.dailyData[today].taskTimers = {};
+
+        activeTimer.taskId = taskId; activeTimer.startTime = Date.now(); activeTimer.sessionSeconds = 0;
+        updateTimerUI(taskId, true, 0);
+        activeTimer.intervalId = setInterval(() => {
+            if (!activeTimer.intervalId || activeTimer.taskId !== taskId) { clearInterval(activeTimer.intervalId); activeTimer.intervalId = null; return; }
+            activeTimer.sessionSeconds = Math.floor((Date.now() - activeTimer.startTime) / 1000); updateTimerUI(taskId, true, activeTimer.sessionSeconds);
+        }, 1000);
+        updateAllTimerButtonsState();
+     }
+
+     function stopTimer(taskId, shouldSave = true) { // Unchanged
+         if (!activeTimer.taskId || activeTimer.taskId !== taskId) return;
+         if (activeTimer.intervalId) { clearInterval(activeTimer.intervalId); activeTimer.intervalId = null; }
+         const elapsedSeconds = activeTimer.sessionSeconds; const stoppedTaskId = activeTimer.taskId;
+         activeTimer = { taskId: null, intervalId: null, startTime: null, sessionSeconds: 0 };
+         if (shouldSave && elapsedSeconds > 0) {
+             const data = getData(); const today = TODAY_STRING; if (!data.dailyData[today]) data.dailyData[today] = { completedTasks: [], focus: '', reflection: '', taskTimers: {} }; if (!data.dailyData[today].taskTimers) data.dailyData[today].taskTimers = {};
+             const currentTotal = data.dailyData[today].taskTimers[stoppedTaskId] || 0; const newTotal = currentTotal + elapsedSeconds; data.dailyData[today].taskTimers[stoppedTaskId] = newTotal; saveData(data);
+             updateTimerUI(stoppedTaskId, false, 0, newTotal); updateProgressMetrics(); checkAchievements(); showToast(`Timer stopped. ${formatTime(elapsedSeconds, 'total')} added.`, 'info');
+         } else {
+             const data = getData(); const today = TODAY_STRING; const currentTotalSeconds = data.dailyData[today]?.taskTimers?.[stoppedTaskId] || 0; updateTimerUI(stoppedTaskId, false, 0, currentTotalSeconds);
+             if (!shouldSave && elapsedSeconds > 0) { showToast(`Timer stopped. Time not saved.`, 'warning'); }
+             else if (elapsedSeconds === 0) { showToast(`Timer stopped. No time recorded.`, 'info'); }
+         }
+         updateAllTimerButtonsState();
+     }
+
+    function updateTimerUI(taskId, isRunning, currentSessionSeconds, totalStoredSeconds = null) { // Unchanged
+         const scheduleItem = document.querySelector(`.schedule-item[data-task-id="${taskId}"]`); if (!scheduleItem || scheduleItem.classList.contains('is-break')) return; // Ignore breaks
+         const timerCircle = scheduleItem.querySelector(`.timer-circle`); const timerDisplay = scheduleItem.querySelector(`.timer-display`); const timerButton = scheduleItem.querySelector(`.timer-btn`); const totalDisplay = scheduleItem.querySelector(`.total-time-display`); const timerIcon = scheduleItem.querySelector(`.timer-btn .material-symbols-outlined`);
+         if (!timerCircle || !timerDisplay || !timerButton || !totalDisplay) { console.warn("Timer UI elements not found for task:", taskId); return; }
+         timerDisplay.textContent = formatTime(isRunning ? currentSessionSeconds : 0, 'timer');
+         let displayTotalSeconds; if (totalStoredSeconds !== null) { displayTotalSeconds = totalStoredSeconds; } else { const data = getData(); const today = TODAY_STRING; displayTotalSeconds = data.dailyData[today]?.taskTimers?.[taskId] || 0; } totalDisplay.textContent = `Total: ${formatTime(displayTotalSeconds, 'total')}`;
+         timerCircle.classList.toggle('active', isRunning); if (isRunning) { updateTimerVisual(taskId, currentSessionSeconds); } else { updateTimerVisual(taskId, 0); timerCircle.classList.remove('warning', 'ending', 'active'); }
+         const buttonText = isRunning ? 'Stop Timer' : 'Start Timer'; const iconName = isRunning ? 'stop_circle' : 'play_circle'; const buttonClass = isRunning ? 'danger' : 'secondary';
+         if(timerIcon) { timerIcon.textContent = iconName; Array.from(timerButton.childNodes).forEach(node => { if (node.nodeType === Node.TEXT_NODE) { node.remove(); } }); timerButton.appendChild(document.createTextNode(buttonText)); } else { timerButton.textContent = buttonText; }
+         timerButton.classList.remove('secondary', 'danger'); timerButton.classList.add(buttonClass);
+     }
+
+    function updateTimerVisual(taskId, sessionSeconds) { // Unchanged
+         const timerCircle = document.querySelector(`.timer-circle[data-task-id="${taskId}"]`); if (!timerCircle) return;
+         const currentPomodoroDuration = POMODORO_SECONDS; const cycleSeconds = sessionSeconds > 0 ? sessionSeconds % currentPomodoroDuration : 0; const progressRatio = (sessionSeconds > 0 && cycleSeconds === 0 && sessionSeconds >= currentPomodoroDuration) ? 1 : cycleSeconds / currentPomodoroDuration;
+         const angle = Math.min(360, progressRatio * 360); timerCircle.style.setProperty('--progress-angle-rot', `${angle}`);
+         const isWarning = progressRatio >= TIMER_WARN_THRESHOLD && progressRatio < TIMER_END_THRESHOLD; const isEnding = progressRatio >= TIMER_END_THRESHOLD;
+         timerCircle.classList.toggle('warning', isWarning); timerCircle.classList.toggle('ending', isEnding); if (isEnding) timerCircle.classList.remove('warning');
+     }
+
+     function updateAllTimerButtonsState() { // Unchanged
+        const isAnyTimerActive = !!activeTimer.taskId;
+        document.querySelectorAll('.schedule-item:not(.is-break) .timer-btn').forEach(btn => { // Select only non-break timer buttons
+            const btnTaskId = parseInt(btn.dataset.id); if (isNaN(btnTaskId)) return; const isThisTimerActive = activeTimer.taskId === btnTaskId;
+            if (btn.classList.contains('secondary')) { btn.disabled = isAnyTimerActive; } else if (btn.classList.contains('danger')) { btn.disabled = !isThisTimerActive; } else { btn.disabled = false; }
+        });
+     }
+
+     // --- Daily Focus & Reflection --- (Unchanged)
+     function saveDailyFocus() { const selectedDate = getSelectedDate(); if (selectedDate !== TODAY_STRING) { showToast("Can only set focus for today.", "warning"); return; } const data = getData(); const focusText = document.getElementById('dailyFocus').value.trim(); if (!data.dailyData[TODAY_STRING]) data.dailyData[TODAY_STRING] = { completedTasks: [], focus: '', reflection: '', taskTimers: {} }; data.dailyData[TODAY_STRING].focus = focusText; saveData(data); checkAchievements(); showToast('Focus saved!', 'success'); }
+     function saveReflection() { const selectedDate = getSelectedDate(); if (selectedDate !== TODAY_STRING) { showToast("Can only write reflections for today.", "warning"); return; } const data = getData(); const reflectionText = document.getElementById('reflectionText').value.trim(); if (!data.dailyData[TODAY_STRING]) data.dailyData[TODAY_STRING] = { completedTasks: [], focus: '', reflection: '', taskTimers: {} }; data.dailyData[TODAY_STRING].reflection = reflectionText; saveData(data); checkAchievements(); showToast('Reflection saved!', 'success'); }
+     function resetDay() { const selectedDate = getSelectedDate(); if (selectedDate !== TODAY_STRING) { showToast("Can only reset today's data.", "warning"); return; } if (confirm("Reset today's task completions and tracked time? Focus and reflection will remain. This cannot be undone.")) { if (activeTimer.taskId) { stopTimer(activeTimer.taskId, false); } const data = getData(); if (data.dailyData[TODAY_STRING]) { data.dailyData[TODAY_STRING].completedTasks = []; data.dailyData[TODAY_STRING].taskTimers = {}; } saveData(data); renderSchedule(TODAY_STRING); updateProgressMetrics(); updateCharts(); showToast("Today's tasks and timers have been reset.", 'info'); } }
+
+    // --- Progress & Achievement Calculation --- (Calculations adjusted previously to ignore breaks)
+     function calculateStreak(data, requiredTasks = 2) { /* Uses calculateStreakWithBreaks logic */ return calculateStreakWithBreaks(data, requiredTasks); }
+     function calculateLongestStreak(data, requiredTasks = 2) { /* Uses calculateLongestStreakWithBreaks logic */ return calculateLongestStreakWithBreaks(data, requiredTasks); }
+     // Helper definitions for streak calc (copied from updateProgressMetrics for checkAchievements)
+     const calculateStreakWithBreaks = (data, requiredNonBreakTasks) => { let currentStreak = 0; const dates = Object.keys(data.dailyData).sort((a, b) => new Date(b) - new Date(a)); let expectedDate = new Date(TODAY_STRING); for (const dateStr of dates) { const loopDate = new Date(dateStr); const loopDateUTC = Date.UTC(loopDate.getUTCFullYear(), loopDate.getUTCMonth(), loopDate.getUTCDate()); const expectedDateUTC = Date.UTC(expectedDate.getUTCFullYear(), expectedDate.getUTCMonth(), expectedDate.getUTCDate()); if (loopDateUTC > expectedDateUTC) continue; if (loopDateUTC === expectedDateUTC) { const completedNonBreak = data.dailyData[dateStr]?.completedTasks?.filter(taskId => data.schedule.find(t => t.id === taskId)?.category !== 'break').length || 0; if (completedNonBreak >= requiredNonBreakTasks) { currentStreak++; expectedDate.setUTCDate(expectedDate.getUTCDate() - 1); } else { const todayUTC = Date.UTC(new Date(TODAY_STRING).getUTCFullYear(), new Date(TODAY_STRING).getUTCMonth(), new Date(TODAY_STRING).getUTCDate()); if(loopDateUTC !== todayUTC) { break; } } } else if (loopDateUTC < expectedDateUTC) { break; } } return currentStreak; };
+     const calculateLongestStreakWithBreaks = (data, requiredNonBreakTasks) => { let longest = 0, current = 0; const dates = Object.keys(data.dailyData).sort(); let prevDate = null; for (const dateStr of dates) { const loopDate = new Date(dateStr); const completedNonBreak = data.dailyData[dateStr]?.completedTasks?.filter(taskId => data.schedule.find(t => t.id === taskId)?.category !== 'break').length || 0; const meetsCriteria = completedNonBreak >= requiredNonBreakTasks; if (meetsCriteria) { let isConsecutive = true; if (prevDate) { const expectedPrev = new Date(loopDate); expectedPrev.setDate(loopDate.getDate() - 1); isConsecutive = prevDate.toDateString() === expectedPrev.toDateString(); } current = isConsecutive ? current + 1 : 1; if (current > longest) longest = current; prevDate = loopDate; } else { current = 0; prevDate = null; } } return longest; };
+
+    function updateProgressMetrics() { // Logic correctly filters breaks already
+        const data = getData(); const today = TODAY_STRING;
+        const trackableScheduleItems = data.schedule?.filter(item => item.category !== 'break') || []; const scheduleLength = trackableScheduleItems.length || 0;
+        const completedTodayCount = data.dailyData[today]?.completedTasks?.filter(taskId => trackableScheduleItems.some(t => t.id === taskId)).length || 0;
+        const totalTimeTodaySeconds = Object.values(data.dailyData[today]?.taskTimers || {}).reduce((sum, time) => sum + (time || 0), 0);
+        const tasksTodayPercentage = scheduleLength > 0 ? Math.min(100, (completedTodayCount / scheduleLength) * 100) : 0;
+        document.getElementById('tasksCompletedToday').textContent = `${completedTodayCount}/${scheduleLength || 'N/A'}`; document.getElementById('tasksTodayProgressBar').style.width = `${tasksTodayPercentage}%`; document.getElementById('timeTrackedToday').textContent = formatTime(totalTimeTodaySeconds, 'progress');
+        let totalCompletedEver = 0; let totalDaysWithTrackableTasks = 0; const loggedDays = Object.keys(data.dailyData);
+        loggedDays.forEach(date => {
+            const completedOnDate = data.dailyData[date].completedTasks?.filter(taskId => trackableScheduleItems.some(t => t.id === taskId)).length || 0; totalCompletedEver += completedOnDate;
+            if (Object.keys(data.dailyData[date]).length > 0) { totalDaysWithTrackableTasks++; }
+        });
+        const totalPossibleTasksOnLoggedDays = totalDaysWithTrackableTasks * scheduleLength; const overallTasksPercentage = totalPossibleTasksOnLoggedDays > 0 ? Math.min(100, (totalCompletedEver / totalPossibleTasksOnLoggedDays) * 100) : 0;
+        document.getElementById('overallTasksCompleted').textContent = `${Math.round(overallTasksPercentage)}%`; document.getElementById('overallTasksProgressBar').style.width = `${overallTasksPercentage}%`;
+        const requiredTasksForStreak = 2;
+        const currentStreak = calculateStreakWithBreaks(data, requiredTasksForStreak); const longestStreakEver = calculateLongestStreakWithBreaks(data, requiredTasksForStreak);
+        let displayLongestStreak = data.longestStreak || 0; if (longestStreakEver > displayLongestStreak) { data.longestStreak = longestStreakEver; displayLongestStreak = longestStreakEver; saveData(data); }
+        document.getElementById('currentStreak').textContent = `${currentStreak} day${currentStreak === 1 ? '' : 's'}`; document.getElementById('longestStreak').textContent = `${displayLongestStreak} day${displayLongestStreak === 1 ? '' : 's'}`; updateStreakVisual('currentStreakContainer', currentStreak); updateStreakVisual('longestStreakContainer', displayLongestStreak);
+        const startDate = new Date(data.startDate); const currentDate = new Date(); const startDay = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()); const currentDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()); const daysPassed = Math.max(0, Math.floor((currentDay - startDay) / (1000 * 60 * 60 * 24)) + 1); const monthPercentage = Math.min(100, (daysPassed / 30) * 100);
+        document.getElementById('monthProgress').textContent = `${Math.round(monthPercentage)}%`; document.getElementById('monthProgressBar').style.width = `${monthPercentage}%`;
+        checkAchievements();
+    }
+    function updateStreakVisual(containerId, streakLength) { // Unchanged
+         const container = document.getElementById(containerId); if (!container) return; container.innerHTML = ''; const maxDots = 7;
+         for (let i = 1; i <= maxDots; i++) { const dayDot = document.createElement('div'); dayDot.className = `streak-day ${i <= streakLength ? 'completed' : ''}`; dayDot.title = i <= streakLength ? `Day ${i} of streak` : `Day ${i}`; container.appendChild(dayDot); }
+     }
+    function checkAchievements() { // Logic correctly filters breaks already
+        const data = getData(); let updated = false; const today = TODAY_STRING; const todayData = data.dailyData[today] || { completedTasks: [], taskTimers: {}, focus: '', reflection: ''};
+        const requiredTasksForStreakAch = 2; const currentStreak = calculateStreakWithBreaks(data, requiredTasksForStreakAch);
+        const reflectionCount = Object.values(data.dailyData).filter(d => d.reflection?.trim()).length; const projectTaskIds = data.schedule.filter(t => t.category === 'project').map(t => t.id); const totalProjectSeconds = Object.values(data.dailyData).reduce((total, dayData) => { return total + projectTaskIds.reduce((dayTotal, taskId) => { return dayTotal + (dayData.taskTimers?.[taskId] || 0); }, 0); }, 0);
+        const tasksTimedTodayCount = Object.keys(todayData.taskTimers || {}).filter(taskId => (todayData.taskTimers[taskId] || 0) > 0).length; const savedFocusToday = !!todayData.focus?.trim();
+        const firstDayCompleted = Object.values(data.dailyData).some(d => (d.completedTasks?.filter(taskId => data.schedule.find(t => t.id === taskId)?.category !== 'break').length || 0) >= 3); const daysTrackedCount = Object.keys(data.dailyData).length;
+        if (!data.achievements) data.achievements = [];
+        data.achievements.forEach(ach => { if (ach.unlocked) return; let unlockConditionMet = false; try {
+                switch (ach.id) {
+                    case 'first-day': unlockConditionMet = firstDayCompleted; break; case 'three-day-streak': unlockConditionMet = currentStreak >= 3; break; case 'week-streak': unlockConditionMet = currentStreak >= 7; break; case 'aws-novice': unlockConditionMet = (data.skills.aws?.current || 0) >= 3; break; case 'sql-novice': unlockConditionMet = (data.skills.sql?.current || 0) >= 3; break; case 'python-novice': unlockConditionMet = (data.skills.python?.current || 0) >= 3; break; case 'first-project': unlockConditionMet = totalProjectSeconds >= 3600; break; case 'time-tracker': unlockConditionMet = tasksTimedTodayCount >= 3; break; case 'focused-day': unlockConditionMet = savedFocusToday; break; case 'reflective-learner': unlockConditionMet = reflectionCount >= 3; break; case 'notes-master': unlockConditionMet = (data.notes?.length || 0) >= 5; break; case 'aws-intermediate': unlockConditionMet = (data.skills.aws?.current || 0) >= 5; break; case 'halfway': unlockConditionMet = daysTrackedCount >= 15; break; case 'full-month': unlockConditionMet = daysTrackedCount >= 30; break;
+                } } catch (e) { console.error("Error checking achievement", ach.id, e); }
+            if (unlockConditionMet) { ach.unlocked = true; updated = true; requestAnimationFrame(() => { showToast(`Achievement Unlocked: ${ach.title}! ${ach.icon}`, 'success', 5000); }); } });
+        if (updated) { saveData(data); if (document.getElementById('achievements')?.classList.contains('active')) { renderAchievements(); } }
+    }
+
+    // --- Charting --- (Unchanged, activity chart already filters breaks)
+    window.activityChartInstance = null; window.skillChartInstance = null;
+    function updateCharts() { const progressTabActive = document.querySelector('.tab[data-tab="progress"]')?.classList.contains('active'); if (progressTabActive) { requestAnimationFrame(() => { updateActivityChart(); updateSkillChart(); }); } }
+    function updateActivityChart() { const data = getData(); const ctx = document.getElementById('activityChart')?.getContext('2d'); if (!ctx) { console.error("Activity chart canvas not found"); return; } const labels = []; const taskCounts = []; const today = new Date(); for (let i = 6; i >= 0; i--) { const date = new Date(today); date.setDate(today.getDate() - i); const dateStr = date.toISOString().split('T')[0]; labels.push(date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' })); const completedNonBreak = data.dailyData[dateStr]?.completedTasks?.filter(taskId => data.schedule.find(t => t.id === taskId)?.category !== 'break').length || 0; taskCounts.push(completedNonBreak); } if (window.activityChartInstance) window.activityChartInstance.destroy(); const isDarkMode = document.body.classList.contains('dark-mode'); const styles = getComputedStyle(document.documentElement); const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'; const labelColor = isDarkMode ? styles.getPropertyValue('--dark-text-secondary').trim() : styles.getPropertyValue('--neutral-500').trim(); const barColor = isDarkMode ? styles.getPropertyValue('--accent').trim() : styles.getPropertyValue('--secondary').trim(); const barHoverColor = isDarkMode ? '#6fffe4' : '#f7b74e'; const tooltipBgColor = isDarkMode ? styles.getPropertyValue('--dark-bg-primary').trim() : styles.getPropertyValue('--neutral-800').trim(); const tooltipTitleColor = isDarkMode ? styles.getPropertyValue('--dark-text-primary').trim() : styles.getPropertyValue('--neutral-100').trim(); const tooltipBodyColor = isDarkMode ? styles.getPropertyValue('--dark-text-secondary').trim() : styles.getPropertyValue('--neutral-200').trim(); const tooltipBorderColor = isDarkMode ? styles.getPropertyValue('--dark-border-light').trim() : styles.getPropertyValue('--neutral-600').trim(); const tooltipBorderRadius = parseInt(styles.getPropertyValue('--border-radius-sm').trim(), 10) || 6; window.activityChartInstance = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: 'Tasks Completed', data: taskCounts, backgroundColor: barColor, borderColor: barColor, borderWidth: 1, borderRadius: 5, hoverBackgroundColor: barHoverColor, hoverBorderColor: barHoverColor }] }, options: { scales: { y: { beginAtZero: true, max: Math.max(5, (Math.max(...taskCounts) || 0) + 1), ticks: { stepSize: 1, color: labelColor, font: { size: 11 } }, grid: { color: gridColor, drawBorder: false } }, x: { ticks: { color: labelColor, font: { size: 11 } }, grid: { display: false } } }, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBgColor, titleColor: tooltipTitleColor, bodyColor: tooltipBodyColor, borderColor: tooltipBorderColor, borderWidth: 1, padding: 10, cornerRadius: tooltipBorderRadius, displayColors: false, callbacks: { label: function(context) { let label = context.dataset.label || ''; if (label) { label += ': '; } if (context.parsed.y !== null) { label += context.parsed.y === 1 ? '1 task' : `${context.parsed.y} tasks`; } return label; } } } }, responsive: true, maintainAspectRatio: false } }); }
+    function updateSkillChart() { const data = getData(); const ctx = document.getElementById('skillChart')?.getContext('2d'); if (!ctx) { console.error("Skill chart canvas not found"); return; } const skillLabels = Object.keys(data.skills).map(key => key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())); const skillData = Object.values(data.skills).map(skill => skill.current || 0); if (window.skillChartInstance) window.skillChartInstance.destroy(); const isDarkMode = document.body.classList.contains('dark-mode'); const styles = getComputedStyle(document.documentElement); const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.08)'; const angleLineColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'; const tickColor = isDarkMode ? styles.getPropertyValue('--dark-text-secondary').trim() : styles.getPropertyValue('--neutral-400').trim(); const pointLabelColor = isDarkMode ? styles.getPropertyValue('--dark-text-primary').trim() : styles.getPropertyValue('--neutral-600').trim(); const primaryColor = styles.getPropertyValue('--primary').trim(); const primaryLightColor = styles.getPropertyValue('--primary-light').trim(); const datasetColor = isDarkMode ? primaryLightColor : primaryColor; const datasetFillColor = isDarkMode ? 'rgba(138, 198, 255, 0.2)' : 'rgba(74, 144, 226, 0.2)'; const pointBorderColorValue = isDarkMode ? styles.getPropertyValue('--dark-bg-secondary').trim() : styles.getPropertyValue('--neutral-0').trim(); const tooltipBgColor = isDarkMode ? styles.getPropertyValue('--dark-bg-primary').trim() : styles.getPropertyValue('--neutral-800').trim(); const tooltipTitleColor = isDarkMode ? styles.getPropertyValue('--dark-text-primary').trim() : styles.getPropertyValue('--neutral-100').trim(); const tooltipBodyColor = isDarkMode ? styles.getPropertyValue('--dark-text-secondary').trim() : styles.getPropertyValue('--neutral-200').trim(); const tooltipBorderColor = isDarkMode ? styles.getPropertyValue('--dark-border-light').trim() : styles.getPropertyValue('--neutral-600').trim(); const tooltipBorderRadius = parseInt(styles.getPropertyValue('--border-radius-sm').trim(), 10) || 6; window.skillChartInstance = new Chart(ctx, { type: 'radar', data: { labels: skillLabels, datasets: [{ label: 'Skill Level', data: skillData, backgroundColor: datasetFillColor, borderColor: datasetColor, borderWidth: 2, pointBackgroundColor: datasetColor, pointBorderColor: pointBorderColorValue, pointRadius: 5, pointHoverRadius: 7, pointHoverBackgroundColor: datasetColor, pointHoverBorderColor: pointBorderColorValue }] }, options: { scales: { r: { beginAtZero: true, min: 0, max: 10, ticks: { stepSize: 2, color: tickColor, backdropColor: 'transparent', font: { size: 10 } }, grid: { color: gridColor }, angleLines: { color: angleLineColor }, pointLabels: { color: pointLabelColor, font: { size: 12, weight: '500' } } } }, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBgColor, titleColor: tooltipTitleColor, bodyColor: tooltipBodyColor, borderColor: tooltipBorderColor, borderWidth: 1, padding: 10, cornerRadius: tooltipBorderRadius, displayColors: false, callbacks: { label: function(context) { return `${context.label}: ${context.parsed.r}/10`; }, title: function() { return null; } } } }, responsive: true, maintainAspectRatio: false } }); }
+
+    // --- Skill Management --- (Unchanged)
+    function saveSkillProgress() { const data = getData(); const skillSelect = document.getElementById('skillSelect'); const skillLevelInput = document.getElementById('skillLevel'); const skillKey = skillSelect.value; const newLevel = parseInt(skillLevelInput.value); if (!data.skills[skillKey]) { console.error("Selected skill key not found:", skillKey); showToast("Error: Invalid skill.", "error"); return; } const today = TODAY_STRING; const history = data.skills[skillKey].history || []; const todayEntryIndex = history.findIndex(entry => entry.date === today); let changed = false; if (todayEntryIndex > -1) { if (history[todayEntryIndex].level !== newLevel) { history[todayEntryIndex].level = newLevel; changed = true; } } else { history.push({ date: today, level: newLevel }); changed = true; } if (data.skills[skillKey].current !== newLevel) { data.skills[skillKey].current = newLevel; changed = true; } if (changed) { data.skills[skillKey].history = history; saveData(data); updateSkillChart(); checkAchievements(); showToast(`${skillSelect.options[skillSelect.selectedIndex].text} skill updated to level ${newLevel}!`, 'success'); } else { showToast(`${skillSelect.options[skillSelect.selectedIndex].text} skill already at level ${newLevel}.`, 'info'); } }
+    function initSkillLevelDisplay() { const skillLevelInput = document.getElementById('skillLevel'); const skillLevelDisplay = document.getElementById('skillLevelDisplay'); const skillSelect = document.getElementById('skillSelect'); if (!skillLevelInput || !skillLevelDisplay || !skillSelect) return; const updateDisplay = () => { try { const currentSkillData = getData().skills[skillSelect.value]; const level = currentSkillData?.current || 1; skillLevelInput.value = level; skillLevelDisplay.textContent = `Level: ${level}/10`; } catch (e) { console.error("Error updating skill display:", e); skillLevelInput.value = 1; skillLevelDisplay.textContent = `Level: 1/10`; } }; skillLevelInput.addEventListener('input', () => { skillLevelDisplay.textContent = `Level: ${skillLevelInput.value}/10`; }); skillSelect.addEventListener('change', updateDisplay); updateDisplay(); }
+
+    // --- Note Management --- (Unchanged)
+    function saveNote() { const data = getData(); const titleInput = document.getElementById('noteTitle'); const contentInput = document.getElementById('noteContent'); const categorySelect = document.getElementById('noteCategory'); if (!titleInput || !contentInput || !categorySelect) return; const title = titleInput.value.trim(); const content = contentInput.value.trim(); const category = categorySelect.value; if (!title || !content) { showToast('Note title and content cannot be empty.', 'warning'); return; } const newNote = { id: Date.now(), title, content, category, date: new Date().toISOString() }; data.notes.push(newNote); saveData(data); titleInput.value = ''; contentInput.value = ''; if (document.getElementById('notes')?.classList.contains('active')) renderNotes(); checkAchievements(); showToast('Note saved successfully!', 'success'); }
+    function deleteNote(noteId) { if (confirm('Are you sure you want to delete this note permanently?')) { const data = getData(); const initialLength = data.notes.length; data.notes = data.notes.filter(note => note.id !== noteId); if (data.notes.length < initialLength) { saveData(data); if (document.getElementById('notes')?.classList.contains('active')) renderNotes(); showToast('Note deleted.', 'info'); } else { showToast('Note not found for deletion.', 'error'); } } }
+
+    // --- Utility & Event Listeners --- (Unchanged)
+    function toggleDarkMode() { const data = getData(); data.darkMode = !data.darkMode; saveData(data); applyDarkMode(data.darkMode); updateCharts(); }
+    function applyDarkMode(isDark) { document.body.classList.toggle('dark-mode', isDark); const toggleButton = document.getElementById('darkModeToggle'); if (toggleButton) { toggleButton.textContent = isDark ? '☀️' : '🌙'; toggleButton.setAttribute('aria-label', isDark ? 'Activate light mode' : 'Activate dark mode'); } const primaryColorValue = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--primary-light').trim() : getComputedStyle(document.documentElement).getPropertyValue('--primary').trim(); const colorToRgbString = (color) => { if (!color) return '74, 144, 226'; if (color.startsWith('#')) { const bigint = parseInt(color.slice(1), 16); const r = (bigint >> 16) & 255; const g = (bigint >> 8) & 255; const b = bigint & 255; return `${r}, ${g}, ${b}`; } else if (color.startsWith('rgb')) { return color.match(/\d+/g).slice(0, 3).join(', '); } return '74, 144, 226'; }; document.documentElement.style.setProperty('--primary-rgb', colorToRgbString(primaryColorValue)); }
+    function resetAllData() { if (confirm('🚨 DANGER ZONE! 🚨\n\nAre you absolutely sure you want to reset ALL data?\n\nThis includes your schedule, progress, notes, skills, and achievements. It cannot be undone.')) { if (activeTimer.intervalId) { clearInterval(activeTimer.intervalId); activeTimer = { taskId: null, intervalId: null, startTime: null, sessionSeconds: 0 }; } localStorage.removeItem('deJourneyData'); showToast('All data has been reset. Reloading dashboard...', 'warning', 2000); setTimeout(() => location.reload(), 2000); } }
+    function initTabs() { const tabs = document.querySelectorAll('.tab'); const contents = document.querySelectorAll('.content'); if (!tabs.length || !contents.length) return; const activateTab = (tabToActivate) => { if (!tabToActivate) return; tabs.forEach(t => t.classList.remove('active')); contents.forEach(c => c.classList.remove('active')); tabToActivate.classList.add('active'); const targetContentId = tabToActivate.dataset.tab; const targetContent = document.getElementById(targetContentId); if (targetContent) { targetContent.classList.add('active'); switch(targetContentId) { case 'progress': updateProgressMetrics(); updateCharts(); break; case 'notes': renderNotes(); break; case 'achievements': renderAchievements(); break; case 'dailyView': loadDailyData(getSelectedDate()); break; } } else { console.error(`Content element with ID "${targetContentId}" not found.`); } }; tabs.forEach(tab => { tab.addEventListener('click', () => activateTab(tab)); }); activateTab(tabs[0]); }
+    function initEventListeners() { document.getElementById('darkModeToggle')?.addEventListener('click', toggleDarkMode); document.getElementById('resetBtn')?.addEventListener('click', resetAllData); document.getElementById('resetDayBtn')?.addEventListener('click', resetDay); document.getElementById('saveFocusBtn')?.addEventListener('click', saveDailyFocus); document.getElementById('saveReflectionBtn')?.addEventListener('click', saveReflection); document.getElementById('saveSkillBtn')?.addEventListener('click', saveSkillProgress); document.getElementById('saveNoteBtn')?.addEventListener('click', saveNote); document.getElementById('noteCategoryFilter')?.addEventListener('change', renderNotes); document.getElementById('dateSelector')?.addEventListener('change', (e) => loadDailyData(e.target.value)); }
+
+    // --- Main Initialization Function --- (Unchanged)
+    function init() {
+        console.time("Dashboard Initialization"); let data; try { data = initializeData(); } catch (e) { console.error("Fatal error during data initialization:", e); document.body.innerHTML = `<div style="padding: 20px; text-align: center; color: red;"><h1>Error Initializing Dashboard</h1><p>Could not load or initialize dashboard data. Please try clearing local storage for this site or contact support.</p><p>Error details: ${e.message}</p></div>`; return; }
+        applyDarkMode(data.darkMode);
+        const dateSelector = document.getElementById('dateSelector'); if (dateSelector) { dateSelector.value = TODAY_STRING; dateSelector.max = TODAY_STRING; } else { console.error("Date selector element not found."); }
+        try { if (typeof marked !== 'undefined') { marked.setOptions({ breaks: true, gfm: true, pedantic: false, smartypants: true }); } else { console.error("Marked library not loaded."); } } catch (e) { console.error("Error configuring Marked:", e); }
+        initTabs(); initEventListeners(); initSkillLevelDisplay();
+        if (activeTimer.taskId) { console.warn("Resetting active timer state on page load."); activeTimer = { taskId: null, intervalId: null, startTime: null, sessionSeconds: 0 }; if (document.getElementById('dailyView')?.classList.contains('active')) { renderSchedule(TODAY_STRING); } }
+        console.timeEnd("Dashboard Initialization"); requestAnimationFrame(() => { showToast("Dashboard ready!", "info", 1500); });
+     }
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
